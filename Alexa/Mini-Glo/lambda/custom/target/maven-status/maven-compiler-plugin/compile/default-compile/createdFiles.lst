@@ -1,6 +1,12 @@
+com/amazon/ask/MiniGlo/handlers/DeleteColumnIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/AnswerIntentHandler.class
-com/amazon/ask/MiniGlo/handlers/HelpIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.class
 com/amazon/ask/MiniGlo/handlers/SessionEndedHandler.class
-com/amazon/ask/MiniGlo/handlers/ExitSkillHandler.class
+com/amazon/ask/MiniGlo/handlers/AddColumnToBoardIntentHandler.class
 com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class
+com/amazon/ask/MiniGlo/handlers/HelpIntentHandler.class
+com/amazon/ask/MiniGlo/handlers/AddCardToColumnIntentHandler.class
+com/amazon/ask/MiniGlo/handlers/ExitSkillHandler.class
+com/amazon/ask/MiniGlo/Functions.class
+com/amazon/ask/MiniGlo/handlers/RenameColumnIntentHanlder.class
+com/amazon/ask/MiniGlo/handlers/BoardsIntentHandler.class

@@ -24,7 +24,7 @@
           "samples": []
         },
         {
-          "name": "AMAZON.AnswerIntentHandler",
+          "name": "AnswerIntent",
           "samples": [
           "{boardName}",
           "to search {boardName} board",
@@ -37,6 +37,60 @@
             "samples": []
           }
         ]
+        },
+        {
+          "name": "AddColumntoBoardIntent",
+          "samples": [
+            "add column {columnName} to board",
+            "add column {columnName}",
+            "add column {columnName} to board {boardName}",
+            "add column {columnName} to {boardName}"
+
+          ],
+          "slots": [
+            {
+              "name": "columnName",
+              "type": "STRING"
+            }
+          ]
+        },
+        {
+          "name" : "RenameColumnIntent",
+          "samples": [
+            "rename column {columnName} to {newColumnName}"
+          ],
+          "slots" : [
+            {
+              "name": "columnName",
+              "type": "STRING"
+            },
+            {
+              "name": "newColumnName",
+              "type": "STRING"
+            }
+          ]
+
+        },
+        {
+          "name": "DeleteColumnIntent",
+          "samples": [
+            "delete column {columnName}"
+          ],
+          "slots": [
+            {
+              "name": "columnName",
+              "type" : "STRING"
+            }
+          ]
+        },
+        {
+          "name": "AddCardToColumnIntent",
+          "samples": [
+            "add card {cardName} to column {columName}",
+            "add card {cardName} to {columnName}",
+            "add {cardName} to column {columnName}",
+            "add {cardName}"
+          ]
         }
       ],
       "types": [

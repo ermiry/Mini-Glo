@@ -23,7 +23,6 @@ public class AnswerIntentHandler implements com.amazon.ask.dispatcher.request.ha
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         String responseText;
         String speechOutput = " ";
         //TODO: Compare boards name
@@ -34,6 +33,8 @@ public class AnswerIntentHandler implements com.amazon.ask.dispatcher.request.ha
                 speechOutput = slot.getValue();
             }
         }
+
+
         return input.getResponseBuilder()
                 .withSpeech(speechOutput)
                 .withShouldEndSession(true)
