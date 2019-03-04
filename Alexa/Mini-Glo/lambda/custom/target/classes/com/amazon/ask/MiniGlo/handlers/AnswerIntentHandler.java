@@ -5,7 +5,6 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
-import static com.amazon.ask.request.Predicates.sessionAttribute;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,16 +23,12 @@ public class AnswerIntentHandler implements com.amazon.ask.dispatcher.request.ha
     @Override
     public Optional<Response> handle(HandlerInput input) {
         String responseText;
-        String speechOutput = " ";
-        //TODO: Compare boards name
+        String speechOutput;
         IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
         Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-        for(Slot slot:slots.values()){
-            if(slot!=null){
-                speechOutput = slot.getValue();
-            }
-        }
+        String columnName = slots.get("columnName").getValue();
 
+        speechOutput = "I add column " + columnName + "to board";
 
         return input.getResponseBuilder()
                 .withSpeech(speechOutput)

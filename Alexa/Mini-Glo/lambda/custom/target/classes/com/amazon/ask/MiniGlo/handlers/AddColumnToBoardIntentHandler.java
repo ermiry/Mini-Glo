@@ -38,7 +38,7 @@ public class AddColumnToBoardIntentHandler implements com.amazon.ask.dispatcher.
         else responseSpeech ="Column " + columnName + ", Couldnt be added";
         return input.getResponseBuilder()
                 .withSpeech(responseSpeech)
-                .withShouldEndSession(correct)
+                .withShouldEndSession(true)
                 .build();
     }
 }

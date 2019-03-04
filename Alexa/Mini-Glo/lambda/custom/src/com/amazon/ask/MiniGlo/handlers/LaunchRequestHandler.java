@@ -10,6 +10,14 @@ import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.requestType;
 
+import com.amazon.ask.model.LaunchRequest;
+import com.amazon.ask.model.Response;
+import com.amazon.ask.MiniGlo.model.Attributes;
+import com.amazon.ask.MiniGlo.model.Constants;
+
+import java.util.Map;
+import java.util.Optional;
+
 public class LaunchRequestHandler implements RequestHandler {
 
     @Override
@@ -20,10 +28,10 @@ public class LaunchRequestHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        sessionAttributes.put("state", "_START");
+        sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
         return input.getResponseBuilder()
-                .withSpeech("Welcome to mini glo")
-                .withReprompt("If you need help")
+                .withSpeech(Constants.WELCOME_MESSAGE)
+                .withReprompt(Constants.HELP_MESSAGE)
                 .withShouldEndSession(false)
                 .build();
     }

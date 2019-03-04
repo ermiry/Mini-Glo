@@ -9,7 +9,7 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
 {
     public MiniGloSkillStreamHandler(){
         super(Skills.standard()
-            .addRequestHandlers(new AnswerIntentHandler(),
+            .addRequestHandlers(new BoardIntentHandler(),
                     new LaunchRequestHandler(),
                     new HelpIntentHandler(),
                     new ExitSkillHandler(),
