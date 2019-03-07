@@ -13,4 +13,22 @@ public class FunctionApi {
         return true;
     }
 
+    public boolean addColumnToBoard(String columnName,String board){
+        return true;
+    }
+
+    public boolean addCardtoColumn(String columnName,String cardName){
+
+        /*for(String columnInBoard:Board){
+            if(columnName==columnInBoard){
+                new Column.push(Attributes.cardName,cardName);
+                return true;
+            }
+
+        }
+        //return false*/
+
+        return true;
+    }
+
 }

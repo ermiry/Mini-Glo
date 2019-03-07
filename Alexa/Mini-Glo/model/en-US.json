@@ -25,81 +25,56 @@
         },
         {
           "name": "BoardIntent",
-          "samples": [
-          "{boardName}",
-          "to search {boardName} board",
-          "to show {boardName} board"
-          ],
-          "slots": [
-          {
-            "name": "boardName",
-            "type": "STRING",
-            "samples": []
-          }
-        ]
-        },
-        {
-          "name": "AddColumntoBoardIntent",
-          "samples": [
-            "add column {columnName} to board",
-            "add column {columnName}",
-            "add column {columnName} to board {boardName}",
-            "add column {columnName} to {boardName}"
-
-          ],
           "slots": [
             {
-              "name": "columnName",
+              "name": "boardName",
               "type": "STRING"
             }
+          ],
+          "samples": [
+            "to open {boardName} board",
+            "to open {boardName}",
+            "to search {boardName} board",
+            "to search {boardName}",
+            "to show {boardName} board",
+            "to show {boardName}"
           ]
         },
         {
-          "name" : "RenameColumnIntent",
-          "samples": [
-            "rename column {columnName} to {newColumnName}"
-          ],
-          "slots" : [
+          "name": "AMAZON.ResumeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AddColumnIntent",
+          "slots": [
             {
               "name": "columnName",
               "type": "STRING"
             },
             {
-              "name": "newColumnName",
+              "name": "boardName",
               "type": "STRING"
             }
-          ]
-
-        },
-        {
-          "name": "DeleteColumnIntent",
-          "samples": [
-            "delete column {columnName}"
           ],
-          "slots": [
-            {
-              "name": "columnName",
-              "type" : "STRING"
-            }
-          ]
-        },
-        {
-          "name": "AddCardToColumnIntent",
           "samples": [
-            "add card {cardName} to column {columName}",
-            "add card {cardName} to {columnName}",
-            "add {cardName} to column {columnName}",
-            "add {cardName}"
+            "to add column {columnName} to board {boardName}",
+            "to add {columnName} to board {boardName}",
+            "to add column {columnName} to current board",
+            "to add {columnName} column to {boardName}"
           ]
         }
       ],
       "types": [
         {
-          "name":"STRING",
+          "name": "STRING",
           "values": [
             {
               "name": {
-                "value": "Joe"
+                "value": "Foo"
               }
             }
           ]

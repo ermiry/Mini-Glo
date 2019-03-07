@@ -9,15 +9,17 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
 {
     public MiniGloSkillStreamHandler(){
         super(Skills.standard()
-            .addRequestHandlers(new BoardIntentHandler(),
+                .addRequestHandlers(
                     new LaunchRequestHandler(),
+                    new BoardIntentHandler(),
+                    new AddColumnIntentHandler(),
+                    new GloAndStartOverIntentHandler(),
+                    new RepeatIntentHandler(),
                     new HelpIntentHandler(),
-                    new ExitSkillHandler(),
-                    new SessionEndedHandler(),
-                    new AddCardToColumnIntentHandler(),
-                    new AddColumnToBoardIntentHandler(),
-                    new BoardsIntentHandler(),
-                    new DeleteColumnIntentHandler()).build());
+                    new ExitIntentHandler(),
+                    new SessionEndedHandler()
+                ).build());
+
     }
 
 }

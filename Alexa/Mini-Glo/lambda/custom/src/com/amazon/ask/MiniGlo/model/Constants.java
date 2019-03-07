@@ -12,7 +12,7 @@ public class Constants {
             "For Git Kraken Glo Boards!, You can create, edit or delete columns, cards and boards," +
             "You can ask me for help if you need, Get Fun with Mini-Glo";
     public static String HELP_MESSAGE="If you need help you can ask me, Mini-Glo, How to? And i will tell you all the commands you need";
-    public static String START_EDIT = "Ok. You can tell me a complete full sequence of instructions without stop, if you want me to stop you just have to say, Mini-Glo Exit, or Cancel, or Stop, and i will stop";
+    public static String START_EDIT = "You can tell me a complete full sequence of instructions without stop, if you want me to stop you just have to say, Mini-Glo Exit, or Cancel, or Stop, and i will stop";
     public static String EXIT_SKILL_MESSAGE = "Thank you for using Mini-Glo, come Soon";
 
 
