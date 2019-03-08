@@ -8,6 +8,7 @@ public class Constants {
     public static  final String INCORRECT_SHOW = "The item was not correctly showed";
     public static final String CORRECT_CREATION = "The item was correctly Created";
     public static final String INCORRECT_CREATION = "The item was not correctly Created" ;
+    public static final String CONTINUE = "Do you want me to continue?";
     public static String WELCOME_MESSAGE="Welcome to Mini-Glo! A full function " +
             "For Git Kraken Glo Boards!, You can create, edit or delete columns, cards and boards," +
             "You can ask me for help if you need, Get Fun with Mini-Glo";

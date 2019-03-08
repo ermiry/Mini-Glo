@@ -1,3 +1,4 @@
+com/amazon/ask/MiniGlo/handlers/YesNoIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/ExitIntentHandler.class
 com/amazon/ask/MiniGlo/model/Attributes.class
 com/amazon/ask/MiniGlo/api/Column.class
@@ -5,6 +6,7 @@ com/amazon/ask/MiniGlo/api/Card.class
 com/amazon/ask/MiniGlo/api/Board.class
 com/amazon/ask/MiniGlo/utils/GloUtils.class
 com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.class
+com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/SessionEndedHandler.class
 com/amazon/ask/MiniGlo/api/FunctionApi.class
 com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.class

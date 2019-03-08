@@ -30,6 +30,7 @@ public class GloAndStartOverIntentHandler implements RequestHandler {
         persistentAttributes.put(Attributes.BOARD_NAME,"");
         persistentAttributes.put(Attributes.COLUMN_NAME,"");
         persistentAttributes.put(Attributes.CARD_NAME,"");
+        persistentAttributes.put(Attributes.ENDSESSION,Attributes.CONTINUE);
         return GloUtils.startSession(input);
     }
 }

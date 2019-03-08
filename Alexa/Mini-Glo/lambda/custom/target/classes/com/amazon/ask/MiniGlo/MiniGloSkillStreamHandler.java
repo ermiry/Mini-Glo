@@ -13,6 +13,8 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
                     new LaunchRequestHandler(),
                     new BoardIntentHandler(),
                     new AddColumnIntentHandler(),
+                    new AddCardIntentHandler(),
+                    new YesNoIntentHandler(),
                     new GloAndStartOverIntentHandler(),
                     new RepeatIntentHandler(),
                     new HelpIntentHandler(),
