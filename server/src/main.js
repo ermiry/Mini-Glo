@@ -28,10 +28,7 @@ app.use (bodyParser.json ());
 
 /*** ROUTES ***/
 
-// app.use ('/api/users', users);
-
-// projects api routes
-// app.use ('/api/', projects);
+app.use ('/api/mini-glo', mini-glo);
 
 // catch all, for now redirect to the home page
 // app.get ("*", (req, res) => { res.redirect ("/"); });
