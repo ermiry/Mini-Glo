@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="320ebd03-b72a-4302-aefc-3907cdd0ecac" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/en-US.json" beforeDir="false" afterPath="$PROJECT_DIR$/model/en-US.json" afterDir="false" />
-    </list>
+    <list default="true" id="320ebd03-b72a-4302-aefc-3907cdd0ecac" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/lambda/custom/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+            <state relative-caret-position="442">
+              <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -45,11 +37,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="-399">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1376#1649#1" />
               </folding>
             </state>
           </provider>
@@ -58,7 +49,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
+            <state relative-caret-position="1014">
               <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -73,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
+            <state relative-caret-position="156">
               <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -89,7 +80,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
+            <state relative-caret-position="988">
               <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -101,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
+            <state relative-caret-position="468">
               <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
             </state>
           </provider>
@@ -200,7 +191,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -253,6 +243,7 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -330,7 +321,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Capture Tool" order="0" />
       <window_info id="UI Designer" order="1" />
@@ -338,7 +328,7 @@
       <window_info id="aws.explorer" order="3" sideWeight="0.5014663" side_tool="true" weight="0.24313408" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Designer" order="5" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.49853373" visible="true" weight="0.2552504" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.49853373" visible="true" weight="0.25928918" />
       <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.25630254" />
@@ -567,7 +557,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
+        <state relative-caret-position="988">
           <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -577,8 +567,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+        <state relative-caret-position="442">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -587,7 +577,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
+        <state relative-caret-position="156">
           <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -608,14 +598,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
+        <state relative-caret-position="468">
           <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
+        <state relative-caret-position="1014">
           <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -628,11 +618,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        <state relative-caret-position="-399">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1376#1649#1" />
           </folding>
         </state>
       </provider>
