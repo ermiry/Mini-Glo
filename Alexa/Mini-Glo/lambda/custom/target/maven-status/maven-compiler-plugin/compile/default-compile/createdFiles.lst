@@ -15,4 +15,5 @@ com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class
 com/amazon/ask/MiniGlo/model/Constants.class
 com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/HelpIntentHandler.class
+com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/GloAndStartOverIntentHandler.class

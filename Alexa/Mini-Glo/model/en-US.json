@@ -32,11 +32,11 @@
             }
           ],
           "samples": [
-            "to open {boardName} board",
-            "to open {boardName}",
-            "to search {boardName} board",
-            "to search {boardName}",
-            "to show {boardName} board",
+            "open {boardName} board",
+            "open {boardName}",
+            "search {boardName} board",
+            "search {boardName}",
+            "show {boardName} board",
             "to show {boardName}"
           ]
         },
@@ -61,10 +61,59 @@
             }
           ],
           "samples": [
-            "to add column {columnName} to board {boardName}",
-            "to add {columnName} to board {boardName}",
-            "to add column {columnName} to current board",
-            "to add {columnName} column to {boardName}"
+            "add column {columnName} to board {boardName}",
+            "add {columnName} to board {boardName}",
+            "add column {columnName} to current board",
+            "add {columnName} column to {boardName}"
+          ]
+        },
+        {
+          "name": "AddCardIntent",
+          "slots": [
+            {
+              "name": "cardName",
+              "type": "STRING"
+            },
+            {
+              "name": "columnName",
+              "type": "STRING"
+            },
+            {
+              "name": "description",
+              "type": "STRING"
+            }
+          ],
+          "samples": [
+            "add card {cardName} to column {columnName} with description {description}",
+            "add card {cardName} to {columnName} with description {description}",
+            "add {cardName} to column with description {description}",
+            "add {cardName} to column",
+            "add card {cardName} to column",
+            "add card {cardName} to {columnName}",
+            "add {cardName} to column {columnName}",
+            "add card {cardName} to column {columnName}"
+          ]
+        },
+        {
+          "name": "YesIntent",
+          "slots": [],
+          "samples": [
+            "continue please",
+            "continue",
+            "yes please",
+            "yeah",
+            "yes"
+          ]
+        },
+        {
+          "name": "NoIntent",
+          "slots": [],
+          "samples": [
+            "stop please",
+            "stop",
+            "no thanks",
+            "nop",
+            "no"
           ]
         }
       ],
@@ -72,6 +121,46 @@
         {
           "name": "STRING",
           "values": [
+            {
+              "name": {
+                "value": "Run files in alpha"
+              }
+            },
+            {
+              "name": {
+                "value": "Run files in betta"
+              }
+            },
+            {
+              "name": {
+                "value": "Run files in gamma"
+              }
+            },
+            {
+              "name": {
+                "value": "Fix Me"
+              }
+            },
+            {
+              "name": {
+                "value": "To Do"
+              }
+            },
+            {
+              "name": {
+                "value": "To D"
+              }
+            },
+            {
+              "name": {
+                "value": "Michael Jackson"
+              }
+            },
+            {
+              "name": {
+                "value": "Luis Miguel"
+              }
+            },
             {
               "name": {
                 "value": "Foo"

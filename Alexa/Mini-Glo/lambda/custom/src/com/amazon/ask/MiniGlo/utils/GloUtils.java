@@ -62,7 +62,10 @@ public class GloUtils {
         if(i>0) return slotsArray;
         else return null;
     }
-
+    public Map<String,Slot> getSlots(HandlerInput input){
+        IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+        return intentRequest.getIntent().getSlots();
+    }
     public  String getSpeechCon(boolean b) {
         if (b) {
             return "<say-as interpret-as='interjection'>" + getRandomItem(Constants.CORRECT_RESPONSES) + "! </say-as><break strength='strong'/>";

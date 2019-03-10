@@ -18,7 +18,7 @@ public class FunctionApi {
         return true;
     }
 
-    public boolean addCardtoColumn(String columnName,String cardName){
+    public boolean addCardtoColumn(String columnName, String cardName, String description){
 
         /*for(String columnInBoard:Board){
             if(columnName==columnInBoard){

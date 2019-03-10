@@ -4,7 +4,10 @@ import com.amazon.ask.MiniGlo.handlers.*;
 import com.amazon.ask.Skills;
 import com.amazon.ask.SkillStreamHandler;
 
-
+/**
+ * TODO:
+ *
+ * */
 public class MiniGloSkillStreamHandler extends SkillStreamHandler
 {
     public MiniGloSkillStreamHandler(){
@@ -14,6 +17,7 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
                     new BoardIntentHandler(),
                     new AddColumnIntentHandler(),
                     new AddCardIntentHandler(),
+                    new EditCardIntentHandler(),
                     new YesNoIntentHandler(),
                     new GloAndStartOverIntentHandler(),
                     new RepeatIntentHandler(),
