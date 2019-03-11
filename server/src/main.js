@@ -28,14 +28,13 @@ app.use (bodyParser.json ());
 
 /*** ROUTES ***/
 
-// app.use ('/api/users', users);
+const miniglo = require ('./routes/api/mini-glo');
 
-// projects api routes
-// app.use ('/api/', projects);
+app.use ('/api/mini-glo', miniglo);
 
 // catch all, for now redirect to the home page
 // app.get ("*", (req, res) => { res.redirect ("/"); });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 10000;
 
 app.listen (port, () => console.log (`Server running on port ${port}`));
