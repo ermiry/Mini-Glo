@@ -36,7 +36,8 @@ router.get('/oauth',(req,res,next)=>{
   }  
   console.log('code',code);
   //Post
-
+  //required URL for the authorization:
+  //app.gitkraken.com/oauth/authorize?response_type=code&client_id=b3rb17pn8k6y4z9hkyu4&redirect_uri=http://localhost:10000/api/mini-glo/oauth&scope=board%3Aread board%3Awrite user%3Aread user%3Awrite&state=VHVlIE1hciAxMiAyMDE5IDIxOjIxOjU1IEdNVC0wNjAwIChDZW50cmFsIFN0YW5kYXJkIFRpbWUp
   request
   .post('https://api.gitkraken.com/oauth/access_token')
   .send({ 
