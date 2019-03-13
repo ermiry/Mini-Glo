@@ -6,8 +6,8 @@ public class Attributes {
     public static final String START_STATE = "_START";
     public static final String BOARD_STATE = "_BOARD";
     public static final String CARD_NAME = "cardname";
-    public static final String COLUMN_NAME = "columnname";
-    public static final String BOARD_NAME = "boardname";
+    public static final String COLUMN_NAME = "columnName";
+    public static final String BOARD_NAME = "boardName";
     public static final String CONTINUE = "continue";
     public static final String STOP = "stop";
     public static final String ENDSESSION = "endsession";

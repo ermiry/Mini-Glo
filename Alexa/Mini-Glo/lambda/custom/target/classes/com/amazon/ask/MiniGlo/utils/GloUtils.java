@@ -82,5 +82,10 @@ public class GloUtils {
         return input.getAttributesManager().getSessionAttributes();
     }
 
+    public  String isRegistered(HandlerInput input){
+        return input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
+
+    }
+
 }
 

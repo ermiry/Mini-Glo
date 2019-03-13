@@ -34,24 +34,19 @@ public class AddColumnIntentHandler implements RequestHandler {
         else{
             boardName = slotsArray[0].getValue();
             columnName = slotsArray[1].getValue();
-            sessionAttributes.put("BoardRequested:",boardName);
             sessionAttributes.put("ColumnRequested:",columnName);
-
         }
+
         if(allCorrect) {
             Object board = sessionAttributes.get(Attributes.BOARD_NAME);
-            if (board != null) {
-                boardName = (String) board;
-            }
+            if (board != null) boardName = (String) board;
 
             sessionAttributes.put(Attributes.BOARD_NAME, boardName);
             sessionAttributes.put(Attributes.COLUMN_NAME, columnName);
 
         }
-        responseText = new GloUtils().getSpeechCon(allCorrect);
-
         if(allCorrect) allCorrect= new FunctionApi().addColumnToBoard(columnName,boardName);
-
+        responseText = new GloUtils().getSpeechCon(allCorrect);
         if(allCorrect){
             responseText +=  ". " + Constants.CORRECT_CREATION + ", " + columnName;
             responseText += ". Added " + columnName + " to " + boardName;

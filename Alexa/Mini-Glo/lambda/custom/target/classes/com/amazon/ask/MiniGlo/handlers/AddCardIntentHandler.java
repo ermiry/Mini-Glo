@@ -52,7 +52,7 @@ public class AddCardIntentHandler implements RequestHandler {
             }
         }
 
-        
+
 
         if(allCorrect){
             Object column = sessionAttributes.get(Attributes.COLUMN_NAME);

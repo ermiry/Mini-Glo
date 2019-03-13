@@ -20,11 +20,17 @@ public class LaunchRequestHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
+        String reprompt = Constants.HELP_MESSAGE;
+//        if(accessToken!=null) reprompt  = Constants.HELP_MESSAGE;
+//        else reprompt = Constants.REGISTER_ACCOUNT;
+//
+//        sessionAttributes.put("ACCESS_TOKEN", accessToken);
+
         return input.getResponseBuilder()
                 .withSpeech(Constants.WELCOME_MESSAGE)
-                .withReprompt(Constants.HELP_MESSAGE)
+                .withReprompt(reprompt)
                 .withShouldEndSession(false)
                 .build();
     }

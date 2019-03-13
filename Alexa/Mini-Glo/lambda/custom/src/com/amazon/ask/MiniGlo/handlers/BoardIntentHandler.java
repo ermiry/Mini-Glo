@@ -28,37 +28,39 @@ public class BoardIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        //Map<String,Object> persistentAttributes = input.getAttributesManager().getPersistentAttributes();
-        String responseText,speechOutput;
+            Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+            String responseText, speechOutput;
 
-        IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
-        Slot boardName = null;
-        Map<String, Slot> slots  = intentRequest.getIntent().getSlots();
-        for(Slot slot : slots.values()){
-            if(slot!=null){
-                boardName = slot;
-                break;
+            IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+            Slot boardName = null;
+            Map<String, Slot> slots = intentRequest.getIntent().getSlots();
+
+            for (Slot slot : slots.values()) {
+                if (slot != null) {
+                    boardName = slot;
+                    break;
+                }
             }
-        }
-        boolean correct;
-        sessionAttributes.put(Attributes.BOARD_NAME,boardName.getValue());
-        //persistentAttributes.put(Attributes.BOARD_NAME,boardName.getValue());
-        sessionAttributes.put("boardnameslot",boardName.getName());
-        correct = new FunctionApi().lookForBoard(boardName.getValue());
-        speechOutput = new GloUtils().getSpeechCon(correct);
-        if(correct)
-            speechOutput += Constants.CORRECT_SHOW;
-        else speechOutput +=Constants.INCORRECT_SHOW;
 
-        speechOutput += ".  " + boardName.getValue();
-        speechOutput += ". " +  Constants.CONTINUE;
+            boolean correct;
+            correct = new FunctionApi().lookForBoard(boardName.getValue());
+            speechOutput = new GloUtils().getSpeechCon(correct);
 
-        return input.getResponseBuilder()
-                .withSpeech(speechOutput)
-                .withReprompt(Constants.HELP_MESSAGE)
-                .withShouldEndSession(false)
-                .build();
+
+            if (correct) {
+                sessionAttributes.put(Attributes.BOARD_NAME, boardName.getValue());
+                speechOutput += Constants.CORRECT_SHOW;
+            } else speechOutput += Constants.INCORRECT_SHOW;
+
+            speechOutput += ".  " + boardName.getValue();
+            speechOutput += ". " + Constants.CONTINUE;
+
+            return input.getResponseBuilder()
+                    .withSpeech(speechOutput)
+                    .withReprompt(Constants.HELP_MESSAGE)
+                    .withShouldEndSession(false)
+                    .build();
     }
 
 }
+

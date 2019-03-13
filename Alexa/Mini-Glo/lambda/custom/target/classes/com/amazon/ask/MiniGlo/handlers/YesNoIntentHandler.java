@@ -15,8 +15,8 @@ import static com.amazon.ask.MiniGlo.utils.GloUtils.continueSession;
 public class YesNoIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(Predicates.intentName("YesIntent"))
-        || input.matches(Predicates.intentName("NoIntent"));
+        return input.matches(Predicates.intentName("AMAZON.YesIntent"))
+        || input.matches(Predicates.intentName("AMAZON.NoIntent"));
     }
 
     @Override
@@ -24,7 +24,7 @@ public class YesNoIntentHandler implements RequestHandler {
         Map<String,Object> sessionAttributes = getSessionAttributes(input);
 
 
-        if(input.matches(Predicates.intentName("YesIntent")))
+        if(input.matches(Predicates.intentName("AMAZON.YesIntent")))
             sessionAttributes.put(Attributes.ENDSESSION,Attributes.CONTINUE);
         else sessionAttributes.put(Attributes.ENDSESSION,Attributes.STOP);
 
