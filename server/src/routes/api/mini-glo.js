@@ -45,6 +45,7 @@ router.post ('/test', (req, res) => {
 
 // https://app.gitkraken.com/oauth/authorize?response_type=code&client_id=b3rb17pn8k6y4z9hkyu4&redirect_uri=http://localhost:10000/api/mini-glo/oauth&scope=board%3Aread%20board%3Awrite%20user%3Aread%20user%3Awrite&state=V2VkIE1hciAxMyAyMDE5IDExOjA1OjAyIEdNVC0wNjAwIChDZW50cmFsIFN0YW5kYXJkIFRpbWUp
 
+// FIXME: add super agent
 router.get('/oauth',(req,res,next)=>{
     //get the query
     const{query} = req;
