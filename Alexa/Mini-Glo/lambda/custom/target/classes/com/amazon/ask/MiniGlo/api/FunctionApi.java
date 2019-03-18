@@ -23,8 +23,7 @@ public class FunctionApi {
     private static final String USER_AGENT = "Mozilla/5.0";
 
 
-    private static JsonObject sendGet() throws IOException{
-            String url = "https://96811bce.ngrok.io/api/mini-glo/test";
+    private static JsonObject sendGet(String url) throws IOException{
             URL obj = new URL(url);
             connection = (HttpURLConnection)obj.openConnection();
             connection.setRequestMethod("GET");
@@ -44,13 +43,12 @@ public class FunctionApi {
             return object;
         }
 
-
     public static void disconnect(){
             if(connection!=null) connection.disconnect();
         }
 
     private static JsonObject sendPost(Map<String,String> params)throws Exception{
-            URL url = new URL("https://96811bce.ngrok.io/api/mini-glo/test");
+            URL url = new URL("http://aaf1b450.ngrok.io/api/mini-glo/test");
             connection = (HttpURLConnection) url.openConnection();
             connection.setUseCaches(false);
             connection.setDoInput(true); //true indicates the server returns response
@@ -86,11 +84,25 @@ public class FunctionApi {
             return object;
         }
 
+    public String getAccessToken(){
+        String token;
+        try{
+            JsonObject obj = sendGet("http://aaf1b450.ngrok.io/api/mini-glo/token");
+            token = obj.get("token").getAsString();
+            if(token==null) throw new IOException();
+        }catch(IOException e){
+            e.printStackTrace();
+            token = "";
+        }
+        disconnect();
+        return token;
+
+    }
 
     public boolean lookForBoard(String boardName){
         String board;
         try {
-            JsonObject obj= sendGet();
+            JsonObject obj= sendGet("http://aaf1b450.ngrok.io/api/mini-glo/test");
             board = obj.get("boardName").getAsString();
             if(board==null)
                 throw new IOException();

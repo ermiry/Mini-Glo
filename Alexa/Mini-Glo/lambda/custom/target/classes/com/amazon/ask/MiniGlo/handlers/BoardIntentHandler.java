@@ -41,7 +41,7 @@ public class BoardIntentHandler implements RequestHandler {
                     break;
                 }
             }
-            
+
             boolean correct;
             correct = new FunctionApi().lookForBoard(boardName.getValue());
             speechOutput = new GloUtils().getSpeechCon(correct);

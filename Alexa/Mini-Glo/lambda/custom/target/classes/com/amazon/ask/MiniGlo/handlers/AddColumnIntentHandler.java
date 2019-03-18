@@ -34,7 +34,6 @@ public class AddColumnIntentHandler implements RequestHandler {
         else{
             boardName = slotsArray[0].getValue();
             columnName = slotsArray[1].getValue();
-            sessionAttributes.put("ColumnRequested:",columnName);
         }
 
         if(allCorrect) {
