@@ -27,18 +27,28 @@ public class LaunchRequestHandler implements RequestHandler {
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
         String reprompt = "";
         System.out.println("Access Token: " + accessToken);
-        if(accessToken!=null) sessionAttributes.put("Access Token",accessToken);
+        if(!accessToken.equals("")) sessionAttributes.put("Access Token",accessToken);
         else sessionAttributes.put("Access Token","Null");
 
-        if(accessToken!=null) reprompt  = Constants.HELP_MESSAGE;
-        else
+        if(!accessToken.equals("")){
+            reprompt  = Constants.HELP_MESSAGE;
+            return input.getResponseBuilder()
+                    .withSpeech(Constants.WELCOME_MESSAGE + reprompt)
+                    .withReprompt(reprompt)
+                    .withShouldEndSession(false)
+                    .build();
+        }
+        else {
             reprompt = Constants.REGISTER_ACCOUNT;
 
+            return input.getResponseBuilder()
+                    .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
+                            "Please see alexa app to log in")
+                    .withSimpleCard("LinkCard","" +
+                            "Go to the link:\n" +
+                            "http://18540928.ngrok.io/api/mini-glo/authorize\n" +
+                            "To log in.").build();
+        }
 
-        return input.getResponseBuilder()
-                .withSpeech(Constants.WELCOME_MESSAGE + reprompt)
-                .withReprompt(reprompt)
-                .withShouldEndSession(false)
-                .build();
     }
 }

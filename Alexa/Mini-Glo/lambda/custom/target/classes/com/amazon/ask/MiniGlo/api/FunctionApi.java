@@ -1,6 +1,7 @@
 package com.amazon.ask.MiniGlo.api;
 
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -48,7 +49,7 @@ public class FunctionApi {
         }
 
     private static JsonObject sendPost(Map<String,String> params)throws Exception{
-            URL url = new URL("http://aaf1b450.ngrok.io/api/mini-glo/test");
+            URL url = new URL("http://18540928.ngrok.io/api/mini-glo/test");
             connection = (HttpURLConnection) url.openConnection();
             connection.setUseCaches(false);
             connection.setDoInput(true); //true indicates the server returns response
@@ -87,11 +88,15 @@ public class FunctionApi {
     public String getAccessToken(){
         String token;
         try{
-            JsonObject obj = sendGet("http://aaf1b450.ngrok.io/api/mini-glo/token");
-            token = obj.get("token").getAsString();
-            if(token==null) throw new IOException();
+            JsonElement tokenElement;
+            JsonObject obj = sendGet("http://18540928.ngrok.io/api/mini-glo/token");
+            if(obj==null) throw new IOException();
+            else tokenElement = obj.get("token");
+            if(tokenElement==null) throw new IOException();
+            else token = tokenElement.getAsString();
         }catch(IOException e){
             e.printStackTrace();
+            System.out.println("Token wasnt founded or is null");
             token = "";
         }
         disconnect();
