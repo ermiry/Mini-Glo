@@ -40,6 +40,7 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         else {
             reprompt = Constants.REGISTER_ACCOUNT;
+
             return input.getResponseBuilder()
                     .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
                             "Please see alexa app to log in")

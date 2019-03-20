@@ -1,7 +1,6 @@
 package com.amazon.ask.MiniGlo.handlers;
 
 import com.amazon.ask.MiniGlo.api.FunctionApi;
-import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.MiniGlo.utils.GloUtils;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -11,6 +10,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class BoardIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
             Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
             String responseText, speechOutput;
-
+            JsonObject board = null;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Slot boardName = null;
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
@@ -41,14 +41,13 @@ public class BoardIntentHandler implements RequestHandler {
                     break;
                 }
             }
-
             boolean correct;
-            correct = new FunctionApi().lookForBoard(boardName.getValue());
+            correct =  (board = new FunctionApi().lookForBoard(boardName.getValue()))!=null;
             speechOutput = new GloUtils().getSpeechCon(correct);
 
-
             if (correct) {
-                sessionAttributes.put(Attributes.BOARD_NAME, boardName.getValue());
+                String json = "{name:'"+board.get("name").getAsString()+"',id:'"+board.get("id").getAsString() +"'}";
+                sessionAttributes.put("CurrentBoard",json);
                 speechOutput += Constants.CORRECT_SHOW;
             } else speechOutput += Constants.INCORRECT_SHOW;
 

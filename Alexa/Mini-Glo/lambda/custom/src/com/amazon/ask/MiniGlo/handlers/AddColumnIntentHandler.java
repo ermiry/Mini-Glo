@@ -9,6 +9,7 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,22 +30,24 @@ public class AddColumnIntentHandler implements RequestHandler {
         Slot[] slotsArray = new GloUtils().getSlotsArray(input);
         boolean allCorrect = true;
         String boardName="",columnName="",responseText="";
-
+        JsonObject JsonBoard = null;
         if(slotsArray==null) allCorrect = false;
         else{
             boardName = slotsArray[0].getValue();
             columnName = slotsArray[1].getValue();
         }
-
         if(allCorrect) {
             Object board = sessionAttributes.get(Attributes.BOARD_NAME);
-            if (board != null) boardName = (String) board;
-
-            sessionAttributes.put(Attributes.BOARD_NAME, boardName);
+            if (board != null) {
+                boardName = (String) board;
+                JsonBoard = new FunctionApi().lookForBoard(boardName);
+                if(JsonBoard!=null) sessionAttributes.put("CurrentBoard",JsonBoard);
+                else JsonBoard = (JsonObject) sessionAttributes.get("CurrentBoard");
+            }else JsonBoard = (JsonObject) sessionAttributes.get("CurrentBoard");
             sessionAttributes.put(Attributes.COLUMN_NAME, columnName);
 
         }
-        if(allCorrect) allCorrect= new FunctionApi().addColumnToBoard(columnName,boardName);
+        if(allCorrect) allCorrect= new FunctionApi().addColumnToBoard(columnName,JsonBoard)!=null;
         responseText = new GloUtils().getSpeechCon(allCorrect);
         if(allCorrect){
             responseText +=  ". " + Constants.CORRECT_CREATION + ", " + columnName;

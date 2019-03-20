@@ -1,6 +1,7 @@
 package com.amazon.ask.MiniGlo.api;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,9 +23,9 @@ public class FunctionApi {
 
     private static HttpURLConnection connection = null;
     private static final String USER_AGENT = "Mozilla/5.0";
+    private static final String UNIVERSAL_URL = "http://e7f42cd7.ngrok.io/api/mini-glo";
 
-
-    private static JsonObject sendGet(String url) throws IOException{
+    private static BufferedReader sendGet(String url) throws IOException{
             URL obj = new URL(url);
             connection = (HttpURLConnection)obj.openConnection();
             connection.setRequestMethod("GET");
@@ -35,25 +36,22 @@ public class FunctionApi {
             System.out.println("\nSending 'Get' request to URL: " + url);
             System.out.println("Response Code:" + responseCode );
 
-            BufferedReader in = new BufferedReader(
+            return new BufferedReader(
                     new InputStreamReader(connection.getInputStream())
             );
 
-            JsonObject object =  new JsonParser().parse(in).getAsJsonObject();
-            in.close();
-            return object;
         }
 
     public static void disconnect(){
             if(connection!=null) connection.disconnect();
         }
 
-    private static JsonObject sendPost(Map<String,String> params)throws Exception{
-            URL url = new URL("http://18540928.ngrok.io/api/mini-glo/test");
-            connection = (HttpURLConnection) url.openConnection();
+    private static BufferedReader sendPost(String url, Map<String,String> params)throws Exception{
+            URL obj = new URL(url);
+            connection = (HttpURLConnection) obj.openConnection();
             connection.setUseCaches(false);
             connection.setDoInput(true); //true indicates the server returns response
-
+            connection.setRequestMethod("POST");
             StringBuffer requestParams = new StringBuffer();
 
             if(params!=null && params.size()>0) {
@@ -70,26 +68,28 @@ public class FunctionApi {
                 }
             }
             //SEND Post Data
-
             OutputStreamWriter writer = new OutputStreamWriter(
                     connection.getOutputStream());
             writer.write(requestParams.toString());
             writer.flush();
-
-
-            BufferedReader in = new BufferedReader(
+            return new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
-
-            JsonObject object =  new JsonParser().parse(in).getAsJsonObject();
-            in.close();
-            return object;
         }
 
     public String getAccessToken(){
         String token;
+        boolean isArray = false;
         try{
             JsonElement tokenElement;
-            JsonObject obj = sendGet("http://18540928.ngrok.io/api/mini-glo/token");
+            JsonObject obj = null;
+            JsonArray objArr;
+            BufferedReader in = sendGet(UNIVERSAL_URL+"/token");
+            try {
+                 obj = new JsonParser().parse(in).getAsJsonObject();
+            }catch(IllegalStateException e){
+                e.printStackTrace();
+            }
+
             if(obj==null) throw new IOException();
             else tokenElement = obj.get("token");
             if(tokenElement==null) throw new IOException();
@@ -104,43 +104,69 @@ public class FunctionApi {
 
     }
 
-    public boolean lookForBoard(String boardName){
-        String board;
-        try {
-            JsonObject obj= sendGet("http://aaf1b450.ngrok.io/api/mini-glo/test");
-            board = obj.get("boardName").getAsString();
-            if(board==null)
-                throw new IOException();
-            else System.out.println("BoardName: " + board);
-        }catch(IOException e) {
-            e.printStackTrace();
-            board = null;
-        }
-        disconnect();
-
-        if(board!=null && !board.toUpperCase().equals(boardName.toUpperCase())) return false;
-
-        return true;
-    }
-
-    public boolean addColumnToBoard(String columnName,String board){
+    public JsonObject createBoard(String boardName){
         Map<String,String> params = new HashMap<>();
-        JsonObject obj;
-        String success;
-        params.put("columnName",columnName);
-
-        params.put("board",board);
-        try {
-            obj = sendPost(params);
-            success = obj.get("status").getAsString();
+        boolean isArray;
+        try{
+            JsonObject obj = null;
+            JsonArray objArr;
+            params.put("name",boardName);
+            BufferedReader in = sendPost(UNIVERSAL_URL+"/boardPost",params);
+            try {
+                obj = new JsonParser().parse(in).getAsJsonObject();
+            }catch(IllegalStateException e){
+                e.printStackTrace();
+            }
+            if(obj==null) throw new Exception();
+            else{ disconnect(); return obj;}
         }catch(Exception e){
             e.printStackTrace();
-            success = "Failure";
+            disconnect();
+            return null;
+        }
+    }
+
+    public JsonObject lookForBoard(String boardName){
+        int i=0;
+        try {
+            JsonObject obj = null;
+            JsonArray objArr=null;
+            BufferedReader in = sendGet(UNIVERSAL_URL+"/boards");
+            objArr = new JsonParser().parse(in).getAsJsonArray();
+            for(i=0; i<objArr.size(); i++){
+                JsonObject obj1 = objArr.get(i).getAsJsonObject();
+                JsonElement name = obj1.get("name");
+                JsonElement id = obj1.get("id");
+                if(name.getAsString().toUpperCase().equals(boardName.toUpperCase())){
+                    System.out.println(obj1);
+                    disconnect();
+                    return obj1;
+                }
+            }
+        }catch(IOException e) {
+            e.printStackTrace();
         }
         disconnect();
-        if(success.equals("Failure")) return false;
+        return null;
+    }
 
-        return true;
+    public JsonObject addColumnToBoard(String columnName,JsonObject board){
+//        Map<String,String> params = new HashMap<>();
+//        JsonObject obj;
+//        String success;
+//        params.put("columnName",columnName);
+//
+//        params.put("board",board);
+//        try {
+//            obj = sendPost("https://e7f42cd7.ngrok.io/api/mini-glo/columnPost",params);
+//            if(obj==null)throw new Exception();
+//            else {disconnect(); return obj;}
+//        }catch(Exception e){
+//            e.printStackTrace();
+//
+//        }
+//        disconnect();
+        return null;
     }
 
     public boolean addCardtoColumn(String columnName, String cardName, String description){

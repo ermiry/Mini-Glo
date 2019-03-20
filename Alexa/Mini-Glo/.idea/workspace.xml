@@ -2,13 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="320ebd03-b72a-4302-aefc-3907cdd0ecac" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/api/FunctionApi.class" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/api/FunctionApi.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/api/FunctionApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/api/FunctionApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/classes/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lambda/custom/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/miniGlo-1.0-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/miniGlo-1.0-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lambda/custom/target/miniGlo-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lambda/custom/target/miniGlo-1.0.jar" afterDir="false" />
     </list>
@@ -32,11 +43,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="30" column="30" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="30" />
+            <state relative-caret-position="1170">
+              <caret line="61" column="20" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#lookForBoard#0;class#FunctionApi#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="21" column="51" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="411">
+              <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -45,14 +81,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
+        <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-15">
-              <caret line="87" column="18" selection-start-line="87" selection-start-column="18" selection-end-line="87" selection-end-column="18" />
+            <state relative-caret-position="1690">
+              <caret line="86" selection-start-line="86" selection-end-line="86" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#lookForBoard#0;class#FunctionApi#0" />
-                <element signature="method#addColumnToBoard#0;class#FunctionApi#0" />
+                <element signature="method#getSlotsArray#0;class#GloUtils#0" />
+                <element signature="method#getSpeechCon#0;class#GloUtils#0" />
               </folding>
             </state>
           </provider>
@@ -78,7 +114,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/amazon/ask/MiniGlo/handlers/HelpIntentHandler.java" />
         <option value="$PROJECT_DIR$/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" />
         <option value="$PROJECT_DIR$/src/com/amazon/ask/MiniGlo/handlers/RepeatIntentHandler.java" />
         <option value="$PROJECT_DIR$/../../../sample_java/skill-sample-java-quiz-game/lambda/custom/src/main/java/com/amazon/ask/quiz/handlers/RepeatIntentHandler.java" />
@@ -112,7 +147,6 @@
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/ExitIntentHandler.java" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/SessionEndedHandler.java" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/GloAndStartOverIntentHandler.java" />
-        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java" />
         <option value="$PROJECT_DIR$/model/en-US.json" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java" />
@@ -123,12 +157,14 @@
         <option value="$PROJECT_DIR$/lambda/custom/pom.xml" />
         <option value="$PROJECT_DIR$/lambda/custom/pom.xml" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/model/Attributes.java" />
-        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" />
-        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/model/Constants.java" />
-        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" />
-        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" />
         <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java" />
+        <option value="$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.java" />
       </list>
     </option>
   </component>
@@ -151,7 +187,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -206,13 +242,22 @@
             <path>
               <item name="Mini-Glo" type="b2602c69:ProjectViewProjectNode" />
               <item name="Mini-Glo" type="462c0819:PsiDirectoryNode" />
+              <item name="lambda" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="MiniGlo" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Mini-Glo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mini-Glo" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -222,7 +267,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552398395294" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553052983720" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -259,7 +304,22 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="AWS Lambda.[Local] MiniGloSkillStreamHandler">
+  <component name="RunManager" selected="AWS Lambda.[Local] CreateBoardIntentHandler">
+    <configuration name="[Local] CreateBoardIntentHandler" type="aws.lambda" factoryName="Local" temporary="true" nameIsGenerated="true">
+      <option name="credentialProviderId" value="profile:default" />
+      <option name="environmentVariables">
+        <map />
+      </option>
+      <option name="handler" value="com.amazon.ask.MiniGlo.handlers.CreateBoardIntentHandler" />
+      <option name="input" />
+      <option name="inputIsFile" value="false" />
+      <option name="logicalFunctionName" />
+      <option name="regionId" value="us-east-1" />
+      <option name="runtime" value="java8" />
+      <option name="templateFile" />
+      <option name="useTemplate" value="false" />
+      <method v="2" />
+    </configuration>
     <configuration name="[Local] EditHandler" type="aws.lambda" factoryName="Local" temporary="true" nameIsGenerated="true">
       <option name="credentialProviderId" value="profile:default" />
       <option name="environmentVariables">
@@ -292,6 +352,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="AWS Lambda.[Local] CreateBoardIntentHandler" />
         <item itemvalue="AWS Lambda.[Local] MiniGloSkillStreamHandler" />
         <item itemvalue="AWS Lambda.[Local] EditHandler" />
       </list>
@@ -333,16 +394,50 @@
       <workItem from="1552784768085" duration="375000" />
       <workItem from="1552853358600" duration="6456000" />
       <workItem from="1553019171220" duration="333000" />
+      <workItem from="1553099961691" duration="216000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88337000" />
+    <option name="totallyTimeSpent" value="98279000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Capture Tool" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Favorites" order="2" sideWeight="0.5014663" side_tool="true" weight="0.24313408" />
+      <window_info id="aws.explorer" order="3" sideWeight="0.50377357" side_tool="true" weight="0.22294022" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Designer" order="5" />
+      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.49622643" visible="true" weight="0.22294022" />
+      <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" visible="true" weight="0.25561798" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="4" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" sideWeight="0.30210015" visible="true" weight="0.042134833" />
+      <window_info anchor="bottom" id="Run" order="7" />
+      <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.042016808" />
+      <window_info anchor="bottom" id="Connector for AWS Lambda" order="13" sideWeight="0.6978998" side_tool="true" weight="0.042134833" />
+      <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Database" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+    </layout>
+    <layout-to-restore>
       <window_info id="Capture Tool" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Favorites" order="2" sideWeight="0.5014663" side_tool="true" weight="0.24313408" />
@@ -374,13 +469,12 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java" />
     <entry file="file://$PROJECT_DIR$/src/com/amazon/ask/MiniGlo/handlers/SessionEndedHandler.java" />
     <entry file="file://$PROJECT_DIR$/../../../sample_java/skill-sample-java-quiz-game/lambda/custom/src/main/java/com/amazon/ask/quiz/handlers/SessionEndedHandler.java" />
     <entry file="file://$PROJECT_DIR$/../../../sample_java/skill-sample-java-quiz-game/lambda/custom/src/main/java/com/amazon/ask/quiz/handlers/RepeatIntentHandler.java" />
@@ -452,13 +546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditHandler.java" />
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/GloAndStartOverIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -470,18 +557,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1638">
-          <caret line="84" column="11" selection-start-line="84" selection-start-column="11" selection-end-line="84" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getSlotsArray#0;class#GloUtils#0" />
-            <element signature="method#getSpeechCon#0;class#GloUtils#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
@@ -489,30 +564,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/model/Attributes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="50" column="54" selection-start-line="50" selection-end-line="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -546,36 +601,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/ExitIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
           <caret line="21" column="90" selection-start-line="21" selection-start-column="90" selection-end-line="21" selection-end-column="90" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#363#364#0" expanded="true" />
-            <element signature="e#391#392#0" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -597,22 +628,99 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="87" column="18" selection-start-line="87" selection-start-column="18" selection-end-line="87" selection-end-column="18" />
+        <state relative-caret-position="286">
+          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#lookForBoard#0;class#FunctionApi#0" />
-            <element signature="method#addColumnToBoard#0;class#FunctionApi#0" />
+            <element signature="e#363#364#0" expanded="true" />
+            <element signature="e#391#392#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-818">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
+        <state relative-caret-position="279">
           <caret line="30" column="30" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#367#368#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/BoardIntentHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="49" column="79" selection-start-line="49" selection-start-column="79" selection-end-line="49" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/api/FunctionApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1170">
+          <caret line="61" column="20" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#lookForBoard#0;class#FunctionApi#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="21" column="51" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/utils/GloUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1690">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getSlotsArray#0;class#GloUtils#0" />
+            <element signature="method#getSpeechCon#0;class#GloUtils#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
