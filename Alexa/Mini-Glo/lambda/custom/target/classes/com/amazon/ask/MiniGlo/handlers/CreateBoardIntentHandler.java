@@ -23,7 +23,6 @@ public class CreateBoardIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        System.out.println("Im in");
         boolean correct = true;
         String responseText="";
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
@@ -37,8 +36,8 @@ public class CreateBoardIntentHandler implements RequestHandler {
 
         if(correct){
             responseText += " " + Constants.CORRECT_CREATION;
-            String json = "{name: '" + board.get("name").getAsString() + "',id: '" + board.get("id").getAsString() + "'}";
-            sessionAttributes.put("CurrentBoard",json);
+            sessionAttributes.put("BoardName",board.get("name").getAsString());
+            sessionAttributes.put("BoardId",board.get("id").getAsString());
         }else responseText+=" "+Constants.INCORRECT_CREATION;
 
         responseText+=" ." + Constants.CONTINUE;

@@ -28,7 +28,7 @@ public class LaunchRequestHandler implements RequestHandler {
         String reprompt = "";
         System.out.println("Access Token: " + accessToken);
         if(!accessToken.equals("")) sessionAttributes.put("Access Token",accessToken);
-        else sessionAttributes.put("Access Token","Null");
+        else sessionAttributes.put(Attributes.ACCESS_TOKEN,"Null");
 
         if(!accessToken.equals("")){
             reprompt  = Constants.HELP_MESSAGE;

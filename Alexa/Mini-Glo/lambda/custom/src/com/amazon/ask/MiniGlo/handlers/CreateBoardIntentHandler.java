@@ -2,6 +2,7 @@ package com.amazon.ask.MiniGlo.handlers;
 
 
 import com.amazon.ask.MiniGlo.api.FunctionApi;
+import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.MiniGlo.utils.GloUtils;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -31,7 +32,8 @@ public class CreateBoardIntentHandler implements RequestHandler {
         Slot boardName = slots.get("boardName");
         JsonObject board = null;
         if(boardName==null) correct = false;
-        if(correct) correct=(board=new FunctionApi().createBoard(boardName.getValue()))!=null;
+        if(correct) correct=(board=new FunctionApi().createBoard(boardName.getValue(),
+                (String)sessionAttributes.get(Attributes.ACCESS_TOKEN)))!=null;
         responseText = new GloUtils().getSpeechCon(correct);
 
         if(correct){

@@ -46,8 +46,7 @@ public class BoardIntentHandler implements RequestHandler {
             speechOutput = new GloUtils().getSpeechCon(correct);
 
             if (correct) {
-                String json = "{name:'"+board.get("name").getAsString()+"',id:'"+board.get("id").getAsString() +"'}";
-                sessionAttributes.put("CurrentBoard",json);
+                sessionAttributes.put("CurrentBoard",board.toString());
                 speechOutput += Constants.CORRECT_SHOW;
             } else speechOutput += Constants.INCORRECT_SHOW;
 

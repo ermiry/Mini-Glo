@@ -150,23 +150,30 @@ public class FunctionApi {
         return null;
     }
 
-    public JsonObject addColumnToBoard(String columnName,JsonObject board){
-//        Map<String,String> params = new HashMap<>();
-//        JsonObject obj;
-//        String success;
-//        params.put("columnName",columnName);
-//
-//        params.put("board",board);
-//        try {
-//            obj = sendPost("https://e7f42cd7.ngrok.io/api/mini-glo/columnPost",params);
-//            if(obj==null)throw new Exception();
-//            else {disconnect(); return obj;}
-//        }catch(Exception e){
-//            e.printStackTrace();
-//
-//        }
-//        disconnect();
-        return null;
+    public boolean addColumnToBoard(String columnName,JsonObject board){
+        Map<String,String> params = new HashMap<>();
+        BufferedReader in;
+        String success;
+        params.put("name",columnName);
+
+        System.out.println("NAME: " + columnName +  "ID: " + board.get("id").getAsString());
+        params.put("boardId",board.get("id").getAsString());
+        try {
+            in = sendPost(UNIVERSAL_URL+"/columnPost",params);
+            try{
+            JsonObject obj = new JsonParser().parse(in).getAsJsonObject();
+            success = obj.get("status").getAsString();
+            if(!success.equals("201"))throw new IOException();
+            disconnect();
+            }catch(IOException e){
+            e.printStackTrace();
+            return false;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean addCardtoColumn(String columnName, String cardName, String description){
