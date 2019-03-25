@@ -36,7 +36,7 @@ public class EditCardIntentHandler implements RequestHandler {
             String responseText;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-            Slot cardName;
+            Slot cardName,description,label,due_date;
             try {
                 board = new JsonParser()
                         .parse(sessionAttributes.get(Attributes.CURRENT_BOARD).toString()).getAsJsonObject();
@@ -45,6 +45,9 @@ public class EditCardIntentHandler implements RequestHandler {
                 board = new JsonParser().parse("{status:None}").getAsJsonObject();
             }
             cardName = slots.get("cardName");
+            description = slots.get("description");
+            due_date = slots.get("label");
+
             if(cardName!=null){
                 Map<String,String> params = new HashMap<>();
                 params.put("boardId",board.get("id").getAsString());
@@ -58,6 +61,13 @@ public class EditCardIntentHandler implements RequestHandler {
                         if(card.get("name").getAsString().equals(cardName.getValue())) break;
                     }
                     if(card==null) throw new IOException();
+
+                    //TODO: Check if a label exists
+
+
+
+
+
                 }catch(IOException e){
                     e.printStackTrace();
                     correct = false;
