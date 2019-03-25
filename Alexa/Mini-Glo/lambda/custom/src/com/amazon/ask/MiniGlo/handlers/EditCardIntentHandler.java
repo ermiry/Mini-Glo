@@ -46,7 +46,7 @@ public class EditCardIntentHandler implements RequestHandler {
             }
             cardName = slots.get("cardName");
             description = slots.get("description");
-            due_date = slots.get("label");
+            label = slots.get("label");
 
             if(cardName!=null){
                 Map<String,String> params = new HashMap<>();
@@ -64,7 +64,7 @@ public class EditCardIntentHandler implements RequestHandler {
 
                     //TODO: Check if a label exists
 
-
+                    in = FunctionApi.getSharedInstance().sendGet()
 
 
 
