@@ -27,8 +27,8 @@ public class LaunchRequestHandler implements RequestHandler {
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
         String reprompt = "";
         System.out.println("Access Token: " + accessToken);
-        if(!accessToken.equals("")) sessionAttributes.put("Access Token",accessToken);
-        else sessionAttributes.put("Access Token","Null");
+        if(!accessToken.equals("")) sessionAttributes.put(Attributes.ACCESS_TOKEN,accessToken);
+        else sessionAttributes.put(Attributes.ACCESS_TOKEN,"Null");
 
         if(!accessToken.equals("")){
             reprompt  = Constants.HELP_MESSAGE;
@@ -39,8 +39,6 @@ public class LaunchRequestHandler implements RequestHandler {
                     .build();
         }
         else {
-            reprompt = Constants.REGISTER_ACCOUNT;
-
             return input.getResponseBuilder()
                     .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
                             "Please see alexa app to log in")

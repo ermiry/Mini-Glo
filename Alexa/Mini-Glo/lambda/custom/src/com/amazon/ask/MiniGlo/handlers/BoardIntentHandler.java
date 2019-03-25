@@ -10,19 +10,17 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import javax.xml.bind.attachment.AttachmentMarshaller;
-import java.text.AttributedCharacterIterator;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 public class BoardIntentHandler implements RequestHandler {
-
-    private static final Random RANDOM = new Random();
-    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -31,33 +29,50 @@ public class BoardIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-            Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-            String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        Optional<Response> response;
+        if((response = new FunctionApi().badAuthentication(accessToken, input)).equals(Optional.empty())) {
+            Map<String, String> params = new HashMap<>();
             String speechOutput;
-            JsonObject board;
+            JsonObject board = null;
+            boolean correct = true;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
             Slot boardName = slots.get("boardName");
-
-            boolean correct;
-            correct =  (board = new FunctionApi().lookForBoard(boardName.getValue(),accessToken))!=null;
+            params.put("boardName", boardName.getValue());
+            params.put("accessToken", accessToken);
+            try {
+                BufferedReader in = FunctionApi.getSharedInstance().sendGet(FunctionApi.getSharedInstance()
+                        .UNIVERSAL_URL + "/boards", params);
+                JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
+                for(int i=0; i< boards.size(); i++){
+                    if((board = boards.get(i).getAsJsonObject()).get("name").getAsString().equals(boardName.getValue())){
+                        break;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                board = new JsonParser().parse("{status:None}").getAsJsonObject();
+                correct = false;
+            }
             speechOutput = new GloUtils().getSpeechCon(correct);
 
             if (correct) {
-                sessionAttributes.put("CurrentBoard",board.toString());
+                sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
                 speechOutput += Constants.CORRECT_SHOW;
+                speechOutput += ".  " + boardName.getValue();
             } else speechOutput += Constants.INCORRECT_SHOW;
-
-            speechOutput += ".  " + boardName.getValue();
             speechOutput += ". " + Constants.CONTINUE;
-
-            if(new FunctionApi().badAuthentication())
 
             return input.getResponseBuilder()
                     .withSpeech(speechOutput)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
+        }
+        else return response;
+
     }
 
 }

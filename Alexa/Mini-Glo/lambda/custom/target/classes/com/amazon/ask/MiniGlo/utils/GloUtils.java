@@ -13,13 +13,17 @@ import java.util.Optional;
 import java.util.Random;
 
 public class GloUtils {
+    private GloUtils sharedInstance;
 
+    public GloUtils getGloUtils(){
+        if(sharedInstance==null) sharedInstance = new GloUtils();
+        return sharedInstance;
+    }
 
     private static final Random RANDOM = new Random();
 
     public static Optional<Response> startSession(HandlerInput input) {
         Map<String,Object> sessionAttributes =getSessionAttributes(input);
-
         if(sessionAttributes.get(Attributes.BOARD_NAME)==""){
             sessionAttributes.put(Attributes.RESPONSE_KEY, Constants.START_EDIT);
         }
@@ -74,18 +78,12 @@ public class GloUtils {
         }
     }
 
-    public static <T> T getRandomItem(List<T> list) {
+    private static <T> T getRandomItem(List<T> list) {
         return list.get(RANDOM.nextInt(list.size()));
     }
 
     public static Map<String,Object> getSessionAttributes(HandlerInput input){
         return input.getAttributesManager().getSessionAttributes();
     }
-
-    public  String isRegistered(HandlerInput input){
-        return input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
-
-    }
-
 }
 

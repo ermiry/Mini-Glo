@@ -1,14 +1,23 @@
 package com.amazon.ask.MiniGlo.handlers;
+
 import com.amazon.ask.MiniGlo.api.FunctionApi;
 import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.MiniGlo.utils.GloUtils;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
+import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import software.amazon.ion.IonException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,62 +37,71 @@ public class AddCardIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String[] slotNames = {"cardName","columName","description"};
-        String responseText = "", cardName = "", columnName = "", description="";
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        Slot[] slotArray = new GloUtils().getSlotsArray(input);
-        boolean allCorrect = true;
-
-        if(slotArray==null) allCorrect= false;
-        else{
-            for(int i=0; i<slotArray.length; i++){
-                for(int j=0; j<slotNames.length; j++){
-                    if(slotArray[i].getName().equals(slotNames[j])){
-                        switch(j){
-                            case 0: cardName = slotArray[i].getValue();
-                            break;
-                            case 1: columnName = slotArray[i].getValue();
-                            break;
-                            case 2: description = slotArray[i].getValue();
-                            break;
-                        }
+        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        Optional <Response> response = FunctionApi.getSharedInstance()
+                .badAuthentication(accessToken,input);
+        if(response.equals(Optional.empty())) {
+            String responseText;
+            boolean correct  = true;
+            IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+            Map<String,Slot> slots = intentRequest.getIntent().getSlots();
+            JsonObject column,card;
+            try{
+                Map<String,String > params = new HashMap<>();
+                System.out.println(sessionAttributes.get(Attributes.CURRENT_BOARD).toString());
+                JsonObject board = new JsonParser()
+                        .parse(sessionAttributes.get(Attributes.CURRENT_BOARD).toString()).getAsJsonObject();
+                if(board==null) throw new IOException();
+                params.put("boardId",board.get("id").getAsString());
+                System.out.println("ID: " + board.get("id").getAsString());
+                BufferedReader in = FunctionApi.getSharedInstance()
+                        .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL
+                                + "/boards/board_id",params);
+                JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
+                column = null;
+                for(int i=0; i<columns.size(); i++){
+                    if((column = columns.get(i).getAsJsonObject())
+                            .get("name").getAsString()
+                            .equals(slots.get("columnName").getValue()))
+                    {
+                        break;
                     }
                 }
+                if(column==null){
+                    throw new IonException();
+                }else{
+                    params.put("columnId",column.get("id").getAsString());
+                    params.put("cardName",slots.get("cardName").getValue());
+                    if(slots.get("description").getValue()!=null) params.put("description",slots.get("description").getValue());
+                    in = FunctionApi.getSharedInstance()
+                            .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/board_id/cards",params);
+                    card = new JsonParser().parse(in).getAsJsonObject();
+                    sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
+                    sessionAttributes.put(Attributes.CURRENT_CARD,card.toString());
+                }
+
+            }catch(IOException e){
+                System.out.println("Error");
+                e.printStackTrace();
+                column = new JsonParser().parse("{status:None}").getAsJsonObject();
+                card = new JsonParser().parse("{status:None}").getAsJsonObject();
+                correct = false;
             }
-        }
+            responseText = new GloUtils().getSpeechCon(correct);
+            if(correct){
+
+                responseText += ". " + Constants.CORRECT_CREATION;
+                responseText += ". Item Created: " + card.get("name").getAsString();
+            }else responseText += ". " + Constants.INCORRECT_CREATION;
+            responseText += ". " + Constants.CONTINUE;
 
 
-
-        if(allCorrect){
-            Object column = sessionAttributes.get(Attributes.COLUMN_NAME);
-            if(column!=null) columnName = (String)column;
-        }
-        if(cardName==null) sessionAttributes.put("CARDNAME","false");
-        else sessionAttributes.put("CARDNAME","true");
-
-        sessionAttributes.put(Attributes.COLUMN_NAME,columnName);
-        sessionAttributes.put(Attributes.CARD_NAME,cardName);
-
-        if(allCorrect) allCorrect = new FunctionApi().addCardtoColumn(columnName,cardName,description);
-
-        responseText = new GloUtils().getSpeechCon(allCorrect);
-
-
-        if(allCorrect){ responseText += Constants.CORRECT_CREATION + ", "
-                + sessionAttributes.get(Attributes.CARD_NAME) + " in "
-                + sessionAttributes.get(Attributes.COLUMN_NAME);
-
-            if(description!=null) responseText += " with description.";
-        }
-
-        else responseText += Constants.INCORRECT_CREATION;
-
-        responseText += ". " +  Constants.CONTINUE;
-
-        return input.getResponseBuilder()
-                .withSpeech(responseText)
-                .withReprompt(Constants.HELP_MESSAGE)
-                .withShouldEndSession(false)
-                .build();
+            return input.getResponseBuilder()
+                    .withSpeech(responseText)
+                    .withReprompt(Constants.HELP_MESSAGE)
+                    .withShouldEndSession(false)
+                    .build();
+        }else return response;
     }
 }
