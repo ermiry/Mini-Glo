@@ -10,19 +10,15 @@ const gloapiurl = 'https://gloapi.gitkraken.com/v1/glo/';
 
 // @route   GET api/mini-glo/test
 // @desc    Tests mini glo route
-// @access  Public
-router.get ('/test', (req, res) => res.json ({ msg: 'Mini-Glo Works' }));
+router.get ('/test', (req, res) => res.status (200).json ({ msg: 'Mini-Glo Works' }));
 
 // @route   POST api/mini-glo/test
 // @desc    Tests mini glo route
-// @access  Public
 router.post ('/test', (req, res) => {
 
     let msg = req.body.msg;
-
     console.log (msg);
-
-    res.json ({ status: 'Success' });
+    return res.status (200).json ({ status: 'Success' });
 
 });
 
@@ -30,7 +26,6 @@ router.post ('/test', (req, res) => {
 
 // @route   GET api/mini-glo/oauth
 // @desc    Handles mini glo oauth
-// @access  Public
 router.get ('/oauth', (req, res) => {
 
 	const { code } = req;
@@ -63,11 +58,29 @@ router.get ('/oauth', (req, res) => {
 
 });
 
+// @route   GET api/mini-glo/authorize
+// @desc    Handles gitkraken authentication
+router.get ('/authorize', (req, res) => {
+
+	request.get ("https://app.gitkraken.com/oauth/authorize")
+		.then (result => {
+			// FIXME: redirect to the correct url 
+			res.sendFile (path.join (__dirname+'/html/index.html')); 
+			return res.status (200);	// TODO: what do we need here?
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Failed to request gitkraken auth.';
+			return res.status (400).json (errors); 
+		});
+	
+});
+
 /*** BOARDS ***/
 
 // @route   GET /boards
 // @desc    Get a list of boards
-// @access  Private
 router.get ('/boards', (req, res) => {
 
 	let token = req.query.token;
@@ -76,20 +89,24 @@ router.get ('/boards', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: return all the boards as json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get boards.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
 			console.error (err.message);
 			errors.board = 'Failed to get boards.';
 			return res.status (400).json (errors); 
-		})
+		});
 
 });
 
 // @route   POST /boards
 // @desc    Creates a new board
-// @access  Private
 router.post ('/boards', (req, res) => {
 
 	request.post (gloapiurl + 'boards')
@@ -97,11 +114,12 @@ router.post ('/boards', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({ name: req.body.boardName })
 		.then (result => {
-			// res.send (result);
-			let board = {};
-			board.id = result.body.id;
-			board.name = result.body.name;
-			return res.status (200).json (board);
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to create board.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -114,7 +132,6 @@ router.post ('/boards', (req, res) => {
 
 // @route   GET /boards/board_id
 // @desc    Gets a board by ID
-// @access  Private
 router.get ('/boards/:board_id', (req, res) => {
 
 	let token = req.query.token;
@@ -122,8 +139,14 @@ router.get ('/boards/:board_id', (req, res) => {
 	request.get (gloapiurl + 'boards/' + req.params.board_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
+		.send ({ fields:['name', 'columns', 'labels'] })	// we select what info we need
 		.then (result => {
-			// TODO: return the full board as json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get board.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -136,7 +159,6 @@ router.get ('/boards/:board_id', (req, res) => {
 
 // @route   POST /boards/board_id
 // @desc    Edits a board by id
-// @access  Private
 router.post ('/boards/:board_id', (req, res) => {
 
 	let token = req.body.token;
@@ -144,9 +166,14 @@ router.post ('/boards/:board_id', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})		// FIXME: send what to edit
+		.send ({ name })		// we can only edit the name
 		.then (result => {
-			// TODO: return the full board as json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get boards.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -159,7 +186,6 @@ router.post ('/boards/:board_id', (req, res) => {
 
 // @route   DELETE /boards/board_id
 // @desc    Deletes a board by id
-// @access  Private
 router.delete ('/boards/:board_id', (req, res) => {
 
 	let token = req.body.token;
@@ -168,7 +194,12 @@ router.delete ('/boards/:board_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// FIXME: what to do next?
+			if (result.status === 204) return res.status (200);
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete board.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
