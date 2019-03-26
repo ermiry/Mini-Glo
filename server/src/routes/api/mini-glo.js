@@ -109,6 +109,8 @@ router.get ('/boards', (req, res) => {
 // @desc    Creates a new board
 router.post ('/boards', (req, res) => {
 
+	let token = req.body.token;
+
 	request.post (gloapiurl + 'boards')
 		.auth (req.body.token, { type: "bearer" })
 		.set ('Accept', 'application/json')
@@ -188,9 +190,9 @@ router.post ('/boards/:board_id', (req, res) => {
 // @desc    Deletes a board by id
 router.delete ('/boards/:board_id', (req, res) => {
 
-	let token = req.body.token;
+	let token = req.query.token;
 
-	request.delete (gloapiurl + req.params.board_id)
+	request.delete (gloapiurl + 'boards/' + req.params.board_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
@@ -270,7 +272,7 @@ router.post ('/boards/:board_id/columns/:column_id', (req, res) => {
 // @desc    Deletes a column by id
 router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
 
-	let token = req.body.token;
+	let token = req.query.token;
 
 	request.delete (gloapiurl + 'boards/' + req.params.board_id + '/columns/' + req.params.column_id)
 		.auth (token, { type: "bearer" })
@@ -405,7 +407,7 @@ router.post ('/boards/:board_id/cards/:card_id', (req, res) => {
 // @desc    Deletes a card
 router.delete ('/boards/:board_id/cards/:card_id', (req, res) => {
 
-	let token = req.body.token;
+	let token = req.query.token;
 
 	request.delte (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
 		.auth (token, { type: "bearer" })
