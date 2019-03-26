@@ -194,7 +194,7 @@ router.delete ('/boards/:board_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			if (result.status === 204) return res.status (200);
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
 			else {
 				let errors = {};
 				errors.board = 'Failed to delete board.';
@@ -221,9 +221,14 @@ router.post ('/boards/:board_id/columns', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id + 'columns')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})	// FIXME: send the correct info
+		.send ({ name: req.body.name, position: 0 })
 		.then (result => {
-			// TODO: return the column as json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to create column.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -236,16 +241,21 @@ router.post ('/boards/:board_id/columns', (req, res) => {
 
 // @route   POST /boards/board_id/columns/column_id
 // @desc    Edits a column by id
-router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
+router.post ('/boards/:board_id/columns/:column_id', (req, res) => {
 
 	let token = req.body.token;
 
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/columns/' + req.params.column_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})	// FIXME: send the correct info
+		.send ({ name: req.body.name, position: req.body.position })
 		.then (result => {
-			// TODO: return the column as json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit column.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -258,7 +268,7 @@ router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
 
 // @route   DELETE /boards/board_id/columns/column_id
 // @desc    Deletes a column by id
-router.delete ('/boards/board_id/columns/column_id', (req, res) => {
+router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
 
 	let token = req.body.token;
 
@@ -266,7 +276,12 @@ router.delete ('/boards/board_id/columns/column_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: return the column as json
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete column.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -290,7 +305,12 @@ router.get ('/boards/:board_id/cards', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: return the card as json	
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit column.';
+				return res.status (400).json (errors); 
+			}	
 		})
 		.catch (err => {
 			let errors = {};
@@ -312,7 +332,12 @@ router.post ('/boards/:board_id/cards', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({})		// FIXME: send the correct data
 		.then (result => {
-			// TODO: return the card as json	
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to create card.';
+				return res.status (400).json (errors); 
+			}	
 		})
 		.catch (err => {
 			let errors = {};
@@ -333,7 +358,12 @@ router.get ('/boards/:board_id/cards/:card_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the josn
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get card.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -355,7 +385,12 @@ router.post ('/boards/:board_id/cards/:card_id', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({})	// FIXME: send the data
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit card.';
+				return res.status (400).json (errors); 
+			}	
 		})
 		.catch (err => {
 			let errors = {};
@@ -376,12 +411,17 @@ router.delete ('/boards/:board_id/cards/:card_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete card.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
 			console.error (err.message);
-			errors.card = 'Failed to edit card.';
+			errors.card = 'Failed to delete card.';
 			return res.status (400).json (errors);
 		});
 
@@ -397,7 +437,12 @@ router.get ('/boards/:board_id/columns/:column_id/cards', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get cards.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -420,16 +465,27 @@ router.get ('/boards/:board_id/cards/:card_id/attachments', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get attachements.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
 			console.error (err.message);
-			errors.card = 'Failed to get attachement.';
+			errors.card = 'Failed to get attachements.';
 			return res.status (400).json (errors);
 		});
 
 });
+
+// FIXME:
+/* After making this call, you must make another call to either update the card's description 
+or add/update one of the card's comments and include the attachment url (in markdown format) in the text.
+The format must be [ANY_TEXT](ATTACHMENT_URL).
+If the attachment url is not in the card description or one of its comments within 1 hour of the attachment being created, it will be deleted. */
 
 // @route   POST /boards/{board_id}/cards/{card_id}/attachments
 // @desc    Creates an attachment for a card
@@ -440,7 +496,7 @@ router.post ('/boards/:board_id/cards/:card_id/attachments', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id + '/attachements')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})		// FIXME: send the correct data
+		.send ({})		// FIXME: send the file
 		.then (result => {
 			// TODO: check errors and send back the json
 		})
@@ -465,7 +521,12 @@ router.get ('/boards/:board_id/cards/:card_id/comments', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get comments.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -485,9 +546,14 @@ router.post ('/boards/:board_id/cards/:card_id/comments', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id + '/comments')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})		// FIXME: sebd the correct data!
+		.send ({ text })
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed create comment.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -507,9 +573,14 @@ router.post ('/boards/:board_id/cards/:card_id/comments/:comment_id', (req, res)
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id + '/comments/' + req.params.comment_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})	// FIXME: send the correct data!
+		.send ({ text })
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit comment.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -530,7 +601,12 @@ router.delete ('/boards/:board_id/cards/:card_id/comments/:comment_id', (req, re
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete comment.';
+				return res.status (400).json (errors); 
+			}
 		})
 		.catch (err => {
 			let errors = {};
@@ -553,7 +629,12 @@ router.get ('/user', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			// TODO: check errors and send back the json
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get user.';
+				return res.status (400).json (errors); 
+			}	
 		})
 		.catch (err => {
 			let errors = {};
