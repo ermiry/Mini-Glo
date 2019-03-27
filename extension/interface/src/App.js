@@ -8,7 +8,9 @@ import { Provider } from 'react-redux';
 import myStore from './myStore';
 
 // Layout components
+import Header from './components/layout/Header';
 import Landing from './components/layout/Landing';
+import Footer from './components/layout/Footer';
 
 import './App.css';
 
@@ -19,7 +21,7 @@ class App extends Component {
 		<Provider store= { myStore }>
 		<Router>
 			<div className="App">
-				{/* <Navbar /> */}
+				<Header />
 				{/* <Route exact path='/' component={ Landing } /> */}
 				<Landing />
 
@@ -32,7 +34,7 @@ class App extends Component {
 					</Switch> */}
 				</div>
 
-				{/* <Footer /> */}
+				<Footer />
 			</div>
 		</Router>
 	</Provider>
