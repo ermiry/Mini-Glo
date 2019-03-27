@@ -9,6 +9,7 @@ com/amazon/ask/MiniGlo/handlers/EditBoardIntentHandler.class
 com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class
 com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/OpenBoardIntentHandler.class
+com/amazon/ask/MiniGlo/handlers/DeleteCardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/EditCardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/GloAndStartOverIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/EditColumnIntentHandler.class

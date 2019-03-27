@@ -25,6 +25,7 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
                     new EditColumnIntentHandler(),
                     new EditBoardIntentHandler(),
                     new DeleteColumnIntentHandler(),
+                    new DeleteCardIntentHandler(),
                     new GloAndStartOverIntentHandler(),
                     new RepeatIntentHandler(),
                     new HelpIntentHandler(),

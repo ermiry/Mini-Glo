@@ -1,6 +1,7 @@
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/DeleteBoardIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/RepeatIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.java
+/Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/DeleteCardIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/YesNoIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/ExitIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/model/Constants.java

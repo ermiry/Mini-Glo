@@ -9,6 +9,7 @@ var columnName = "", board = "";
 var accessToken;
 var url;
 const universalPath = 'https://gloapi.gitkraken.com/v1/glo/boards/';
+const gloapiurl = 'https://gloapi.gitkraken.com/v1/glo/';
 
 
 // @route   GET api/mini-glo/test
@@ -60,152 +61,472 @@ router.get('/oauth',(req,res,next)=>{
 });
 
 router.get('/token',(req,res)=>{
-  console.log("Get token was made");
-  console.log("AcessToken: " + accessToken);
   res.json({
     token:accessToken
   });
 });
 
-router.get('/boards',(req,res)=>{
-  console.log("Get Board was made");
-  console.log("AT: " + accessToken);
-  //const{boardName} = req.boardName;
-  //const{token} = accessToken;
-  request.get('https://gloapi.gitkraken.com/v1/glo/boards')
-  .auth(accessToken,{type:"bearer"})
-  .set('Accept','application/json')
-  .then(result =>{
-    const data = result.body;    
-    return res.status(203).json(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
-});
 
-router.post('/boards',(req,res)=>{
-  
-  console.log("Post Board was made");
-  console.log("AT: ", req.body.accessToken)
-  request.post('https://gloapi.gitkraken.com/v1/glo/boards')
-  
-  .auth(req.body.accessToken,{type:"bearer"})
-  .send({
-    name: req.body.boardName
-  })
-  .set('Accept','application/json')
-  .then(result=>{
-    const data = result.body;
-    console.log(result.status);
-    res.send(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
-})
+router.get ('/boards', (req, res) => {
 
-router.get('/boards/board_id',(req,res)=>{
-  console.log("Get board by id was made");
-  let boardId = req.query.boardId;
-  var url = universalPath + boardId; 
-  console.log("URL: "+ url);
-  request.get(url)
-  .auth(accessToken,{type:"bearer"})
-  .then(result=>{
-    const data = result;
-    console.log(JSON.stringify(data));
-    res.send(JSON.stringify(data));
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
-})
+	let token = req.query.token;
 
-router.post('/boards/board_id/columns',(req,res)=>{
-  console.log("Post column was made");
-  let boardId = req.body.boardId;
-  var url = universalPath + boardId + '/columns';
-  console.log(url);
-  request.post(url)
-  .auth(accessToken,{type:"bearer"})
-  .send({
-    name: req.body.columnName,
-    position:0
-  })
-  .set('Accept','application/json')
-  .then(result =>{
-    const data = result.body;
-    console.log(JSON.stringify(data));
-    res.send(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
-
-})
-
-router.post('/boards/board_id/cards',(req,res)=>{
-  console.log("Card post was made");
-  let boardId = req.body.boardId;
-  let cardName = req.body.cardName;
-  let columnId = req.body.columnId;
-  let description = req.body.description;
-  var url = universalPath + boardId + '/cards';
-  console.log("URL: "  + url);
-  request.post(url)
-  .auth(accessToken,{type:"bearer"})
-  .send({
-    name:cardName,
-    column_id:columnId,
-    description:{
-      text: description
-    }
-  })
-  .then(result=>{
-    const data = result;
-    console.log(JSON.stringify(data));
-    res.send(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
-});
-
-router.get('/boards/board_id/cards',(req,res)=>{
-  let boardId = req.query.boardId;
-  var url = universalPath + boardId + "/cards";
-  request.get(url)
-  .auth(accessToken,{type:"bearer"})
-  .then(result=>{
-    const data = result;
-    console.log(JSON.stringify(data));
-    res.send(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
+	request.get (gloapiurl + 'boards')
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get boards.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Failed to get boards.';
+			return res.status (400).json (errors); 
+		});
 
 });
 
-router.post('/boards/board_id/cards/card_id',(req,res)=>{
-  let boardId = req.board.boardId;
-  let cardId = req.board.cardId;
-  var url = universalPath + boardId + "/" + cardId;
-  request.post(url)
-  .auth(accessToken,{type:"bearer"})
-  .send({
+// @route   POST /boards
+// @desc    Creates a new board
+router.post ('/boards', (req, res) => {
+  console.log("AT:" +  req.body.token + "\nName:" + req.body.boardName);
+	request.post (gloapiurl + 'boards')
+		.auth (req.body.token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({ name: req.body.boardName })
+		.then (result => {
+			if (result.status === 201){
+        console.log("Correctly created board");
+        return res.status (200).json (result.body);
+      }
+			else {
+				let errors = {};
+				errors.board = 'Failed to create board.';
+				return res.status (400).json (errors); 
+			}
+    })
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Failed to create board.';
+        	return res.status (400).json (errors); 
+		});
 
-  })
-  .then(result=>{
-    const data = result;
-    console.log(JSON.stringify(data));
-    res.send(data);
-  })
-  .catch(err=>{
-    console.error(err.message);
-  })
 });
 
+// @route   GET /boards/board_id
+// @desc    Gets a board by ID
+router.get ('/boards/:board_id', (req, res) => {
+
+	let token = req.query.token;
+
+	request.get (gloapiurl + 'boards/' + req.params.board_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({ fields:['name', 'columns', 'labels'] })	// we select what info we need
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get board.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Failed to get board.';
+        	return res.status (400).json (errors); 
+		});
+
+});
+
+// @route   POST /boards/board_id
+// @desc    Edits a board by id
+router.post ('/boards/:board_id', (req, res) => {
+
+	let token = req.body.token;
+
+	request.post (gloapiurl + 'boards/' + req.params.board_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({ name })		// we can only edit the name
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get boards.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Failed to edit board.';
+        	return res.status (400).json (errors); 
+		});
+
+});
+
+// @route   DELETE /boards/board_id
+// @desc    Deletes a board by id
+router.delete ('/boards/:board_id', (req, res) => {
+
+	let token = req.query.token;
+
+	request.delete (gloapiurl +  "boards/" + req.params.board_id)
+		.auth (token, { type: "bearer" })
+    .set ('Accept', 'application/json')
+    
+		.then (result => {
+			if (result.status === 204) return res.status (200);
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete board.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error ("ERRORCILLO:" + err.message);
+			errors.board = 'Failed to delete board.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+
+
+/*** COLUMNS ***/
+
+// @route   POST /boards/board_id/columns
+// @desc    Creates a new column in a board
+router.post ('/boards/:board_id/columns', (req, res) => {
+
+	let token = req.body.token;
+
+	request.post (gloapiurl + 'boards/' + req.params.board_id + '/columns')
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({ name: req.body.name, position: 0 })
+		.then (result => {
+			console.log("It worked");
+			if (result.status === 201){ 
+				console.log("And erick es putotototototoottototote");
+				return res.status (200).json (result.body);
+			}
+			else {
+				let errors = {};
+				errors.board = 'Failed to create column.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.column = 'Failed to create column.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   POST /boards/board_id/columns/column_id
+// @desc    Edits a column by id
+router.post ('/boards/:board_id/columns/:column_id', (req, res) => {
+
+	let token = req.body.token;
+
+	request.post (gloapiurl + 'boards/' + req.params.board_id + '/columns/' + req.params.column_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({ name: req.body.name, position: req.body.position })
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit column.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.column = 'Failed to edit column.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   DELETE /boards/board_id/columns/column_id
+// @desc    Deletes a column by id
+router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
+
+	let token = req.query.token;
+
+	request.delete (gloapiurl + 'boards/' + req.params.board_id + '/columns/' + req.params.column_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete column.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.column = 'Failed to delete column.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+
+
+/*** CARDS ***/
+
+// @route   GET /boards/{board_id}/cards
+// @desc    Gets a list of cards for a board
+router.get ('/boards/:board_id/cards', (req, res) => {
+
+	let token = req.query.token;
+
+	request.get (gloapiurl + 'boards/' + req.params.board_id + '/cards')
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit column.';
+				return res.status (400).json (errors); 
+			}	
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to get cards.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   POST /boards/{board_id}/cards
+// @desc    Creates a new card in a column
+router.post ('/boards/:board_id/cards', (req, res) => {
+
+	let token = req.body.token;
+	let data = {};
+	data.name = req.body.name;
+	data.position = 0;
+	data.column_id = req.body.column_id;
+	if(req.body.description!=null)
+		data.description = {text:req.body.description};
+
+		
+	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards')
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send (data)
+		.then (result => {
+			if (result.status === 201) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to create card.';
+				return res.status (400).json (errors); 
+			}	
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to create card.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   GET /boards/{board_id}/cards/{card_id}
+// @desc    Gets a card by ID
+router.get ('/boards/:board_id/cards/:card_id', (req, res) => {
+
+	let token = req.query.token;
+
+	request.get (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get card.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to get card.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   POST /boards/{board_id}/cards/{card_id}
+// @desc    Edits a card
+router.post ('/boards/:board_id/cards/:card_id', (req, res) => {
+
+	let token = req.body.token;
+
+	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.send ({})	// FIXME: send the data
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to edit card.';
+				return res.status (400).json (errors); 
+			}	
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to edit card.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   DELETE /boards/{board_id}/cards/{card_id}
+// @desc    Deletes a card
+router.delete ('/boards/:board_id/cards/:card_id', (req, res) => {
+
+	let token = req.query.token;
+
+	request.delte (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 204) return res.status (200).json ({ status: 200 });
+			else {
+				let errors = {};
+				errors.board = 'Failed to delete card.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to delete card.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+// @route   GET /boards/{board_id}/columns/{column_id}/cards
+// @desc    Gets a list of cards for a column
+router.get ('/boards/:board_id/columns/:column_id/cards', (req, res) => {
+
+	let token = req.query.token;
+
+	request.get (gloapiurl + 'boards/' + req.params.board_id + '/columns/' + req.params.column_id + '/cards')	
+		.auth (token, { type: "bearer" })
+		.set ('Accept', 'application/json')
+		.then (result => {
+			if (result.status === 200) return res.status (200).json (result.body);
+			else {
+				let errors = {};
+				errors.board = 'Failed to get cards.';
+				return res.status (400).json (errors); 
+			}
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.card = 'Failed to get cards.';
+			return res.status (400).json (errors);
+		});
+
+});
+
+
+// router.post('/boards/:board_id/cards',(req,res)=>{
+//   console.log("Card post was made");
+//   let boardId = req.params.board_id;
+//   let cardName = req.body.cardName;
+//   let columnId = req.body.columnId;
+//   let description = req.body.description;
+
+//   console.log("BoardId " + boardId + "\nCard Name: " + cardName + "\nColumn_Id: " + columnId + "\nDescription: " + description); 
+
+//   var url = universalPath + boardId + '/cards';
+//   console.log("URL: "  + url);
+//   request.post(url)
+//   .auth(accessToken,{type:"bearer"})
+//   .send({
+//     name:cardName,
+//     column_id:columnId,
+//     description:{
+//     text: description
+//     }
+//   })
+//   .then(result=>{
+//     const data = result.body;
+//     console.log(JSON.stringify(data));
+//     res.send(data);
+//   })
+//   .catch(err=>{
+//     console.error(err.message);
+//   })
+// });
+
+
+// router.get('/boards/:board_id/cards',(req,res)=>{
+//   let boardId = req.params.board_id;
+//   var url = universalPath + boardId + "/cards";
+//   request.get(url)
+//   .auth(accessToken,{type:"bearer"})
+//   .then(result=>{
+//     const data = result.body;
+//     console.log(JSON.stringify(data));
+//     res.send(data);
+//   })
+//   .catch(err=>{
+//     console.error(err.message);
+//   })
+
+// });
+
+// router.post ('/boards/:board_id/cards/:card_id', (req, res) => {
+
+// 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
+// 		.auth (token, { type: "bearer" })
+// 		.set ('Accept', 'application/json')
+// 		.send ({
+// 			description: req.body.description,
+// 			label: req.body.label,
+// 			due_date: req.body.due_date,
+// 			name: req.body.name
+// 		})	// FIXME: send the data
+// 		.then (result => {
+//       res.send(result.body);
+// 			// TODO: check errors and send back the json
+// 		})
+// 		.catch (err => {
+// 			let errors = {};
+// 			console.error (err.message);
+// 			errors.card = 'Failed to edit card.';
+// 			return res.status (400).json (errors);
+// 		});
+
+// });
 
 module.exports = router;
