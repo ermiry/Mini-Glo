@@ -14,7 +14,7 @@ import {
 export const addColumn = (boradID, columnData) => dispatch => {
 
     dispatch (clearErrors ());
-    axios.post ('/api/mini-glo/boards/' + boradID + '/columns')
+    axios.post ('/api/mini-glo/boards/' + boradID + '/columns', columnData)
         .then (res => {
             dispatch ({
                 type: ADD_COLUMN,

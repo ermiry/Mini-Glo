@@ -13,3 +13,11 @@ export const DELETE_BOARD = 'DELETE_BOARD';
 export const COLUMN_LOADING = 'COLUMN_LOADING';
 export const ADD_COLUMN = 'ADD_COLUMN';
 export const DELETE_COLUMN = 'DELETE_COLUMN';
+
+export const GET_CARDS = 'GET_CARDS';
+export const ADD_CARD = 'ADD_CARD';
+export const GET_CARD = 'GET_CARD'; 
+export const DELETE_CARD = 'DELETE_CARD';
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
