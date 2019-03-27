@@ -63,8 +63,8 @@ export const getBoard = id => dispatch => {
 		)
 		.catch (err => 
 			dispatch ({
-				type: GET_BOARD,
-				payload: null
+				type: GET_ERRORS,
+				payload: err.response.data
 			})
 		);
 
