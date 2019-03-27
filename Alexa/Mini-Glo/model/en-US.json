@@ -32,12 +32,9 @@
             }
           ],
           "samples": [
-            "open {boardName} board",
-            "open {boardName}",
-            "search {boardName} board",
-            "search {boardName}",
-            "show {boardName} board",
-            "to show {boardName}"
+            "open board {boardName}",
+            "search board {boardName}",
+            "show board {boardName}"
           ]
         },
         {
@@ -54,17 +51,13 @@
             {
               "name": "columnName",
               "type": "STRING"
-            },
-            {
-              "name": "boardName",
-              "type": "STRING"
             }
           ],
           "samples": [
-            "add column {columnName} to board {boardName}",
-            "add {columnName} to board {boardName}",
-            "add column {columnName} to current board",
-            "add {columnName} column to {boardName}"
+            "add column with name {columnName}",
+            "create column with name {columnName}",
+            "Create column called {columnName}",
+            "add column called {columnName} "
           ]
         },
         {
@@ -75,45 +68,133 @@
               "type": "STRING"
             },
             {
+              "name": "description",
+              "type": "STRING"
+            },
+            {
               "name": "columnName",
+              "type": "STRING"
+            }
+          ],
+          "samples": [
+            "add card {cardName} in current column",
+            "create card {cardName} in current column",
+            "add card {cardName} to column {columnName}",
+            "create card {cardName} in column {columnName}",
+            "create card {cardName} in column {columnName} with description {description} ",
+            "add card {cardName}  to column {columnName} with description {description}"
+          ]
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "CreateBoardIntent",
+          "slots": [
+            {
+              "name": "boardName",
+              "type": "STRING"
+            }
+          ],
+          "samples": [
+            "create board called {boardName}",
+            "create board with name {boardName}",
+            "create board named {boardName}",
+            "create new board named {boardName}"
+          ]
+        },
+        {
+          "name": "DeleteBoardIntent",
+          "slots": [
+            {
+              "name": "boardName",
+              "type": "STRING"
+            }
+          ],
+          "samples": [
+            "delete current board",
+            "delete board {boardName}"
+          ]
+        },
+        {
+          "name": "EditCardIntent",
+          "slots": [
+            {
+              "name": "cardName",
               "type": "STRING"
             },
             {
               "name": "description",
               "type": "STRING"
+            },
+            {
+              "name": "label",
+              "type": "STRING"
+            },
+            {
+              "name": "due_date",
+              "type": "AMAZON.DATE"
             }
           ],
           "samples": [
-            "add card {cardName} to column {columnName} with description {description}",
-            "add card {cardName} to {columnName} with description {description}",
-            "add {cardName} to column with description {description}",
-            "add {cardName} to column",
-            "add card {cardName} to column",
-            "add card {cardName} to {columnName}",
-            "add {cardName} to column {columnName}",
-            "add card {cardName} to column {columnName}"
+            "Add description {description} to card {cardName}",
+            "Add label {label} to card {cardName}",
+            "Add due date {due_date} to card {cardName} ",
+            "Change due date of card {cardName} for {due_date}",
+            "Remove label {label} of card {cardName}",
+            "Change description of card {cardName} for {description}"
           ]
         },
         {
-          "name": "YesIntent",
-          "slots": [],
+          "name": "EditBoardIntent",
+          "slots": [
+            {
+              "name": "boardName",
+              "type": "STRING"
+            },
+            {
+              "name": "newBoardName",
+              "type": "STRING"
+            }
+          ],
           "samples": [
-            "continue please",
-            "continue",
-            "yes please",
-            "yeah",
-            "yes"
+            "change name of board {boardName} to {newBoardName}",
+            "put {newBoardName} name to board {boardName}",
+            "change board {boardName} name to {newBoardName}"
           ]
         },
         {
-          "name": "NoIntent",
-          "slots": [],
+          "name": "EditColumnIntent",
+          "slots": [
+            {
+              "name": "columnName",
+              "type": "STRING"
+            },
+            {
+              "name": "newColumnName",
+              "type": "STRING"
+            }
+          ],
           "samples": [
-            "stop please",
-            "stop",
-            "no thanks",
-            "nop",
-            "no"
+            "Change column {columnName} current name to {newColumnName}",
+            "Edit column {columnName} changing name to {newColumnName}"
+          ]
+        },
+        {
+          "name": "DeleteColumnIntent",
+          "slots": [
+            {
+              "name": "columnName",
+              "type": "STRING"
+            }
+          ],
+          "samples": [
+            "Delete column {columnName}"
           ]
         }
       ],
@@ -123,42 +204,72 @@
           "values": [
             {
               "name": {
-                "value": "Run files in alpha"
+                "value": "PRODUCT"
               }
             },
             {
               "name": {
-                "value": "Run files in betta"
+                "value": "SAY"
               }
             },
             {
               "name": {
-                "value": "Run files in gamma"
+                "value": "LISTEN"
               }
             },
             {
               "name": {
-                "value": "Fix Me"
+                "value": "EXERCISE"
               }
             },
             {
               "name": {
-                "value": "To Do"
+                "value": "WORK"
               }
             },
             {
               "name": {
-                "value": "To D"
+                "value": "FIXME"
               }
             },
             {
               "name": {
-                "value": "Michael Jackson"
+                "value": "TODO"
               }
             },
             {
               "name": {
-                "value": "Luis Miguel"
+                "value": "Break"
+              }
+            },
+            {
+              "name": {
+                "value": "Prove"
+              }
+            },
+            {
+              "name": {
+                "value": "epsilon"
+              }
+            },
+            {
+              "name": {
+                "value": "gamma"
+              }
+            },
+            {
+              "name": {
+                "value": "Beta"
+              }
+            },
+            {
+              "name": {
+                "value": "Alfa"
+              }
+            },
+            {
+              "name": {
+                "value": "Basg"
               }
             },
             {

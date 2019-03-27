@@ -14,12 +14,17 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
         super(Skills.standard()
                 .addRequestHandlers(
                     new LaunchRequestHandler(),
-                    new BoardIntentHandler(),
+                    new OpenBoardIntentHandler(),
                     new AddColumnIntentHandler(),
                     new AddCardIntentHandler(),
                     new EditCardIntentHandler(),
                     new YesNoIntentHandler(),
                     new CreateBoardIntentHandler(),
+                    new DeleteBoardIntentHandler(),
+                    new ReconnectIntentHandler(),
+                    new EditColumnIntentHandler(),
+                    new EditBoardIntentHandler(),
+                    new DeleteColumnIntentHandler(),
                     new GloAndStartOverIntentHandler(),
                     new RepeatIntentHandler(),
                     new HelpIntentHandler(),

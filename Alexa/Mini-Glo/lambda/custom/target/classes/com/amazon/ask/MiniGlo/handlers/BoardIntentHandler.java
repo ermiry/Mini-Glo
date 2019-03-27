@@ -30,38 +30,45 @@ public class BoardIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+
         String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+
         Optional<Response> response;
-        if((response = new FunctionApi().badAuthentication(accessToken, input)).equals(Optional.empty())) {
+
+        if ((response = new FunctionApi().badAuthentication(accessToken, input)).equals(Optional.empty())) {
             Map<String, String> params = new HashMap<>();
             String speechOutput;
             JsonObject board = null;
             boolean correct = true;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
+
             Slot boardName = slots.get("boardName");
-            params.put("boardName", boardName.getValue());
-            params.put("accessToken", accessToken);
+            params.put(Constants.TOKEN, accessToken);
             try {
                 BufferedReader in = FunctionApi.getSharedInstance().sendGet(FunctionApi.getSharedInstance()
                         .UNIVERSAL_URL + "/boards", params);
                 JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
-                for(int i=0; i< boards.size(); i++){
-                    if((board = boards.get(i).getAsJsonObject()).get("name").getAsString().equals(boardName.getValue())){
-                        break;
+                if (boards != null) {
+                    for (int i = 0; i < boards.size(); i++) {
+                        if ((board = boards.get(i).getAsJsonObject()).get("name").getAsString().equals(boardName.getValue())) {
+                            sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
+                            break;
+                        }
                     }
-                }
+                } else throw new IOException();
+
             } catch (IOException e) {
                 e.printStackTrace();
-                board = new JsonParser().parse("{status:None}").getAsJsonObject();
+                board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
+                sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
                 correct = false;
             }
             speechOutput = new GloUtils().getSpeechCon(correct);
 
             if (correct) {
-                sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
                 speechOutput += Constants.CORRECT_SHOW;
-                speechOutput += ".  " + boardName.getValue();
+                speechOutput += ".  Item Showed:" + boardName.getValue();
             } else speechOutput += Constants.INCORRECT_SHOW;
             speechOutput += ". " + Constants.CONTINUE;
 
@@ -70,10 +77,21 @@ public class BoardIntentHandler implements RequestHandler {
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
+        } else {
+            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            if (accessToken != null) {
+                sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
+                return input.getResponseBuilder()
+                        .withSpeech("You lost connection, but we have reconnected. Please try again")
+                        .withShouldEndSession(false)
+                        .build();
+            } else {
+                sessionAttributes.remove(Attributes.ACCESS_TOKEN);
+                return response;
+            }
+
         }
-        else return response;
 
     }
-
 }
 

@@ -23,13 +23,6 @@ public class GloAndStartOverIntentHandler implements RequestHandler {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         Map<String,Object> persistentAttributes = input.getAttributesManager().getPersistentAttributes();
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.BOARD_STATE);
-        sessionAttributes.put(Attributes.RESPONSE_KEY,"");
-        sessionAttributes.put(Attributes.BOARD_NAME,"");
-        sessionAttributes.put(Attributes.COLUMN_NAME,"");
-        sessionAttributes.put(Attributes.CARD_NAME,"");
-        persistentAttributes.put(Attributes.BOARD_NAME,"");
-        persistentAttributes.put(Attributes.COLUMN_NAME,"");
-        persistentAttributes.put(Attributes.CARD_NAME,"");
         persistentAttributes.put(Attributes.ENDSESSION,Attributes.CONTINUE);
         return GloUtils.startSession(input);
     }

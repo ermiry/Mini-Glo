@@ -28,9 +28,11 @@ public class CreateBoardIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
+
         if(response.equals(Optional.empty())) {
 
             boolean correct = true;
@@ -38,24 +40,26 @@ public class CreateBoardIntentHandler implements RequestHandler {
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
             Slot boardName = slots.get("boardName");
+
             Map<String,String> params = new HashMap<>();
             JsonObject board = null;
             try{
+                if(boardName==null) throw new IOException();
                 params.put("boardName",boardName.getValue());
-                params.put("accessToken",accessToken);
+                params.put(Constants.TOKEN,accessToken);
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards",params);
                 board = new JsonParser().parse(in).getAsJsonObject();
-            }catch(IOException e) {
+                if(board==null) throw new IOException();
+            }catch(IOException | NullPointerException e) {
                 e.printStackTrace();
-                board = new JsonParser().parse("{status:None}").getAsJsonObject();
+                board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
                 correct = false;
             }
-
+            sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
             responseText = new GloUtils().getSpeechCon(correct);
             if (correct) {
                 responseText += " " + Constants.CORRECT_CREATION;
-                sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
             } else responseText += " " + Constants.INCORRECT_CREATION;
 
             responseText += " ." + Constants.CONTINUE;
@@ -65,6 +69,19 @@ public class CreateBoardIntentHandler implements RequestHandler {
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
-        }else return response;
+        }else {
+            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            if (accessToken != null) {
+                sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
+                return input.getResponseBuilder()
+                        .withSpeech("You lost connection, but we have reconnected. Please try again")
+                        .withShouldEndSession(false)
+                        .build();
+            } else {
+                sessionAttributes.remove(Attributes.ACCESS_TOKEN);
+                return response;
+            }
+
+        }
     }
 }

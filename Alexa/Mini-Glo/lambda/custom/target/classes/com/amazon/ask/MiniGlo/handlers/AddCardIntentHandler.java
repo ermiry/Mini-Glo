@@ -13,7 +13,6 @@ import com.amazon.ask.request.Predicates;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import software.amazon.ion.IonException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +45,13 @@ public class AddCardIntentHandler implements RequestHandler {
             boolean correct  = true;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String,Slot> slots = intentRequest.getIntent().getSlots();
+            if(slots.get("columnName")==null){
+                System.out.println("Column Name doesnt exist");
+
+            }
+            if(slots.get("cardName")==null){
+                System.out.println("Card Name doesnt exist");
+            }
             JsonObject column,card;
             try{
                 Map<String,String > params = new HashMap<>();
@@ -53,35 +59,43 @@ public class AddCardIntentHandler implements RequestHandler {
                 JsonObject board = new JsonParser()
                         .parse(sessionAttributes.get(Attributes.CURRENT_BOARD).toString()).getAsJsonObject();
                 if(board==null) throw new IOException();
-                params.put("boardId",board.get("id").getAsString());
-                System.out.println("ID: " + board.get("id").getAsString());
+                params.put(Constants.TOKEN,accessToken);
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL
-                                + "/boards/board_id",params);
+                                + "/boards/" + board.get("id").getAsString(),params);
+
                 JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
+                System.out.println(columns);
                 column = null;
                 for(int i=0; i<columns.size(); i++){
-                    if((column = columns.get(i).getAsJsonObject())
-                            .get("name").getAsString()
-                            .equals(slots.get("columnName").getValue()))
+
+                    System.out.println(columns.get(i).getAsJsonObject().get("name").getAsString());
+                    if((column = columns.get(i).getAsJsonObject()).get("name").getAsString().toUpperCase()
+                            .equals(slots.get("columnName").getValue().toUpperCase()))
                     {
+                        System.out.println(column.get("id").getAsString());
+                        params.put("column_id",column.get("id").getAsString());
                         break;
                     }
                 }
-                if(column==null){
-                    throw new IonException();
-                }else{
-                    params.put("columnId",column.get("id").getAsString());
-                    params.put("cardName",slots.get("cardName").getValue());
-                    if(slots.get("description").getValue()!=null) params.put("description",slots.get("description").getValue());
-                    in = FunctionApi.getSharedInstance()
-                            .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/board_id/cards",params);
-                    card = new JsonParser().parse(in).getAsJsonObject();
-                    sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
-                    sessionAttributes.put(Attributes.CURRENT_CARD,card.toString());
-                }
 
-            }catch(IOException e){
+                if(column==null) throw new IOException();
+                String description = slots.get("description").getValue();
+                params.put("name",slots.get("cardName").getValue());
+                if(description==null) description="";
+                params.put("description", description);
+
+
+                in = FunctionApi.getSharedInstance()
+                        .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL +
+                                "/boards/"+ board.get("id").getAsString() + "/cards",params);
+                card = new JsonParser().parse(in).getAsJsonObject();
+
+                sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
+                sessionAttributes.put(Attributes.CURRENT_CARD,card.toString());
+
+
+            }catch(IOException | NullPointerException e){
                 System.out.println("Error");
                 e.printStackTrace();
                 column = new JsonParser().parse("{status:None}").getAsJsonObject();
@@ -95,13 +109,26 @@ public class AddCardIntentHandler implements RequestHandler {
                 responseText += ". Item Created: " + card.get("name").getAsString();
             }else responseText += ". " + Constants.INCORRECT_CREATION;
             responseText += ". " + Constants.CONTINUE;
-
+            sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
 
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
-        }else return response;
+        }else {
+            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            if (accessToken != null) {
+                sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
+                return input.getResponseBuilder()
+                        .withSpeech("You lost connection, but we have reconnected. Please try again")
+                        .withShouldEndSession(false)
+                        .build();
+            } else {
+                sessionAttributes.remove(Attributes.ACCESS_TOKEN);
+                return response;
+            }
+
+        }
     }
 }

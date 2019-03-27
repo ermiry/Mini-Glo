@@ -8,10 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -32,7 +29,7 @@ public class FunctionApi {
 
     private  HttpURLConnection connection = null;
     private  final String USER_AGENT = "Mozilla/5.0";
-    public  final String UNIVERSAL_URL = "https://4275cfc3.ngrok.io/api/mini-glo";
+    public  final String UNIVERSAL_URL = "https://ea52f4e7.ngrok.io/api/mini-glo";
 
     public  BufferedReader sendGet(String url, Map<String,String> params) throws IOException{
         if(params!=null && params.size()>0){
@@ -43,6 +40,7 @@ public class FunctionApi {
                 String value = params.get(key);
                 url += key + "=" + value;
                 if(paramsItertor.hasNext()) url += "&";
+                System.out.println(url);
             }
         }
         URL obj = new URL(url);
@@ -62,6 +60,33 @@ public class FunctionApi {
                 new InputStreamReader(connection.getInputStream())
         );
 
+    }
+
+    public BufferedReader sendDelete(String url, Map<String,String> params) throws IOException{
+        if(params!=null && params.size()>0){
+            url += "?";
+            Iterator<String>paramsItertor = params.keySet().iterator();
+            while(paramsItertor.hasNext()){
+                String key = paramsItertor.next();
+                String value = params.get(key);
+                url += key + "=" + value;
+                if(paramsItertor.hasNext()) url += "&";
+                System.out.println(url);
+            }
+        }
+        URL obj = new URL(url);
+        connection = (HttpURLConnection) obj.openConnection();
+        connection.setUseCaches(false);
+        connection.setDoInput(true);
+        connection.setRequestMethod("DELETE");
+        connection.setRequestProperty("User-Agent",USER_AGENT);
+        connection.setRequestProperty("Content-Type","text/plain");
+        connection.setRequestProperty("charset","utf-8");
+        int responseCode = connection.getResponseCode();
+        System.out.println("Sending 'Delete' to url: " + url);
+        System.out.println("Response Code:" + responseCode);
+        return new BufferedReader(
+                new InputStreamReader(connection.getInputStream()));
     }
 
     public  void disconnect(){
@@ -85,7 +110,7 @@ public class FunctionApi {
                     requestParams.append(URLEncoder.encode(key, "UTF-8"));
                     requestParams.append("=");
                     requestParams.append(URLEncoder.encode(value, "UTF-8"));
-                    requestParams.append("&");
+                    if(paramIterator.hasNext()) requestParams.append("&");
                     System.out.println(requestParams);
                 }
             }
@@ -94,13 +119,13 @@ public class FunctionApi {
                     connection.getOutputStream());
             writer.write(requestParams.toString());
             writer.flush();
+            System.out.println(connection.getResponseCode());
             return new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
         }
 
     public String getAccessToken(){
         String token;
-        boolean isArray = false;
         try{
             JsonElement tokenElement;
             JsonObject obj = null;
@@ -133,11 +158,16 @@ public class FunctionApi {
         if(!accessToken.equals(currentAccessToken))
 
             return input.getResponseBuilder()
-                    .withSpeech("You are not authenticated")
+                    .withSpeech("You are not authenticated, please reconnect through the chrome extension")
                     .withReprompt(Constants.HELP_MESSAGE)
-                    .withShouldEndSession(true).build();
+                    .withShouldEndSession(true)
+                    .build();
         else
             return Optional.empty();
+    }
+
+    public String reAuthenticate(){
+        return getAccessToken();
     }
 
 

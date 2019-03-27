@@ -39,19 +39,20 @@ public class AddColumnIntentHandler implements RequestHandler {
             Map<String,String> params = new HashMap<>();
             boolean correct = true;
             Slot columnName = slots.get("columnName");
-            String responseText = "";
+            String responseText;
             JsonObject column = null, board = null;
-            board = new JsonParser().parse(sessionAttributes.get(Attributes.CURRENT_BOARD)
-                    .toString()).getAsJsonObject();
-            try{
-                params.put("columnName",columnName.getValue());
-                params.put("boardId",board.get("id").getAsString());
 
+            try{
+                params.put(Constants.TOKEN,accessToken);
+                params.put("name",columnName.getValue());
+                board = new JsonParser().parse(sessionAttributes.get(Attributes.CURRENT_BOARD)
+                        .toString()).getAsJsonObject();
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL +
-                                "/boards/board_id/columns",params);
+                                "/boards/" + board.get("id").getAsString() + "/columns",params);
                 column = new JsonParser().parse(in).getAsJsonObject();
-            }catch(IOException e){
+                if(column==null) throw new IOException();
+            }catch(IOException | NullPointerException e){
                 e.printStackTrace();
                 column = new JsonParser().parse("{status:None}").getAsJsonObject();
                 correct = false;

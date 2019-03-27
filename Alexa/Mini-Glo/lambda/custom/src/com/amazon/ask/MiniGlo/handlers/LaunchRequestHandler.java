@@ -1,14 +1,13 @@
 package com.amazon.ask.MiniGlo.handlers;
 
+import com.amazon.ask.MiniGlo.api.FunctionApi;
 import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.ui.SimpleCard;
 import com.amazon.ask.request.Predicates;
-import com.amazon.ask.MiniGlo.api.FunctionApi;
 
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +20,6 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        SimpleCard card = SimpleCard.builder().build();
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         String accessToken = new FunctionApi().getAccessToken();
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
@@ -42,10 +40,7 @@ public class LaunchRequestHandler implements RequestHandler {
             return input.getResponseBuilder()
                     .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
                             "Please see alexa app to log in")
-                    .withSimpleCard("LinkCard","" +
-                            "Go to the link:\n" +
-                            "http://18540928.ngrok.io/api/mini-glo/authorize\n" +
-                            "To log in.").build();
+                   .build();
         }
 
     }
