@@ -11,6 +11,8 @@ import {
 	BOARD_LOADING
 } from './types';
 
+// FIXME: we also need to edit a board!!
+
 export const getBoards = () => dispatch => {
 
 	dispatch (setBoardLoading ());
