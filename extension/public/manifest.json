@@ -1,0 +1,17 @@
+{
+  "short_name": "Mini Glo",
+  "name": "Mini Glo Chrome Extension",
+  "description": "Chrome extension for GitKraken Glo",
+  "version": "1.0",
+  
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Mini Glo"
+  },
+  
+  "icons": {
+    "1064": "logo.png"
+  },
+
+  "manifest_version": 2
+}
