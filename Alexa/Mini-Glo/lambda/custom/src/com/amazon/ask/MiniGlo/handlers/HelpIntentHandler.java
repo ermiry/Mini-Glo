@@ -16,8 +16,11 @@ public class HelpIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        String responseText = "To ask correctly you have to say: Ask mini glo how to, then say the action," +
+                "You can say: CREATE, EDIT OR DELETE, and in case of board OPEN, then you have to say " +
+                "a type of element, a BOARD, a COLUMN or a CARD ";
         return input.getResponseBuilder()
-                .withSpeech(Constants.HELP_MESSAGE)
+                .withSpeech(responseText)
                 .withReprompt(Constants.HELP_MESSAGE)
                 .withShouldEndSession(false)
                 .build();

@@ -12,6 +12,7 @@
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/api/Column.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/OpenBoardIntentHandler.java
+/Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/helpIntents/HelpTypeIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/GloAndStartOverIntentHandler.java
 /Users/Juan/Documents/Cybernetics/Java/Mini-Glo/alexa/Mini-Glo/lambda/custom/src/com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.java

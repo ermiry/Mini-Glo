@@ -51,12 +51,11 @@ public class CreateBoardIntentHandler implements RequestHandler {
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards",params);
                 board = new JsonParser().parse(in).getAsJsonObject();
                 if(board==null) throw new IOException();
+                sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
             }catch(IOException | NullPointerException e) {
                 e.printStackTrace();
-                board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
                 correct = false;
             }
-            sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
             responseText = new GloUtils().getSpeechCon(correct);
             if (correct) {
                 responseText += " " + Constants.CORRECT_CREATION;

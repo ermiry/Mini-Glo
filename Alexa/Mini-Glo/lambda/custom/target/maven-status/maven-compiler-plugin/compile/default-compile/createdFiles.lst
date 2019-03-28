@@ -5,6 +5,7 @@ com/amazon/ask/MiniGlo/api/Board.class
 com/amazon/ask/MiniGlo/utils/GloUtils.class
 com/amazon/ask/MiniGlo/handlers/LaunchRequestHandler.class
 com/amazon/ask/MiniGlo/api/FunctionApi.class
+com/amazon/ask/MiniGlo/handlers/helpIntents/HelpTypeIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/EditBoardIntentHandler.class
 com/amazon/ask/MiniGlo/MiniGloSkillStreamHandler.class
 com/amazon/ask/MiniGlo/handlers/CreateBoardIntentHandler.class

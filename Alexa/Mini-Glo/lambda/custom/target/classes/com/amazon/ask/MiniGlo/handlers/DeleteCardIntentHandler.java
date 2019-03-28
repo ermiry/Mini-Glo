@@ -62,7 +62,7 @@ public class DeleteCardIntentHandler implements RequestHandler {
 
                 in = FunctionApi.getSharedInstance()
                         .sendDelete(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/"
-                                +board.get("id").getAsString() +"/cards" + card.get("id").getAsString() , params);
+                                +board.get("id").getAsString() +"/cards/" + card.get("id").getAsString() , params);
                 status = new JsonParser().parse(in).getAsJsonObject();
 
                 if(status.get("status").getAsString().equals("400")) throw new IOException();

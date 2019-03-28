@@ -36,7 +36,6 @@ public class EditBoardIntentHandler implements RequestHandler {
 
         if(response.equals(Optional.empty())){
             Map<String,String> params = new HashMap<>();
-            params.put(Constants.TOKEN,accessToken);
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
             Slot boardName = slots.get("boardName");
@@ -44,7 +43,7 @@ public class EditBoardIntentHandler implements RequestHandler {
 
             JsonObject board = null;
             try{
-
+                params.put(Constants.TOKEN,accessToken);
                 if(boardName!=null) {
                     BufferedReader in = FunctionApi.getSharedInstance()
                             .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards", params);
@@ -60,32 +59,25 @@ public class EditBoardIntentHandler implements RequestHandler {
                     if(newBoardName==null || newBoardName.getValue()==null) throw new IOException();
 
                     params.put("new_name",newBoardName.getValue());
-                    System.out.println("N: " + newBoardName.getValue());
                     in = FunctionApi.getSharedInstance()
                             .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/" +
                                     board.get("id").getAsString(),params);
                     board = new JsonParser().parse(in).getAsJsonObject();
-
-
                     if(board==null) throw new IOException();
                 }else{
-                    if(sessionAttributes.get(Attributes.CURRENT_BOARD)!=null && newBoardName!=null){
-                        params.put("new_name",newBoardName.getValue());
-                        board = new JsonParser()
-                                .parse(sessionAttributes.get(Attributes.CURRENT_BOARD).toString()).getAsJsonObject();
-
-                        BufferedReader in = FunctionApi.getSharedInstance()
-                                .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/" +
-                                        board.get("id").getAsString(),params);
-                        board = new JsonParser().parse(in).getAsJsonObject();
-                        if(board==null) throw new IOException();
-
-                    }else throw new IOException();
+                    if(sessionAttributes.get(Attributes.CURRENT_BOARD)==null || newBoardName==null) throw new IOException();
+                    params.put("new_name",newBoardName.getValue());
+                    board = new JsonParser()
+                            .parse(sessionAttributes.get(Attributes.CURRENT_BOARD).toString()).getAsJsonObject();
+                    BufferedReader in = FunctionApi.getSharedInstance()
+                            .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/" +
+                                    board.get("id").getAsString(),params);
+                    board = new JsonParser().parse(in).getAsJsonObject();
+                    if(board==null) throw new IOException();
                 }
                 sessionAttributes.put(Attributes.CURRENT_BOARD,board);
             }catch(IOException | NullPointerException e){
                 e.printStackTrace();
-                board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
                 correct = false;
             }
 

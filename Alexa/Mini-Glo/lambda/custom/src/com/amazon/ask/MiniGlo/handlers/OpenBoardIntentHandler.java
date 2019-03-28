@@ -42,23 +42,25 @@ public class OpenBoardIntentHandler implements RequestHandler {
             boolean correct = true;
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
-
-            Slot boardName = slots.get("boardName");
-            params.put(Constants.TOKEN, accessToken);
+            Slot boardName=null;
             try {
+                boardName = slots.get("boardName");
+                if(boardName == null) throw new IOException();
+                params.put(Constants.TOKEN, accessToken);
                 BufferedReader in = FunctionApi.getSharedInstance().sendGet(FunctionApi.getSharedInstance()
                         .UNIVERSAL_URL + "/boards", params);
                 JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
-                if (boards != null) {
-                    for (int i = 0; i < boards.size(); i++) {
-                        if ((board = boards.get(i).getAsJsonObject()).get("name").getAsString().equals(boardName.getValue())) {
-                            sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
-                            break;
-                        }
+                if (boards == null) throw new IOException();
+                    int i;
+                for ( i = 0; i < boards.size(); i++) {
+                    if ((board = boards.get(i).getAsJsonObject()).get("name").getAsString().equals(boardName.getValue())) {
+                        sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
+                        break;
                     }
-                } else throw new IOException();
-
-            } catch (IOException e) {
+                }
+                if(board==null|| boards.size()==i) throw new IOException();
+                if(board.get("status").getAsString().equals("400")) throw new IOException();
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
                 board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
                 sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());

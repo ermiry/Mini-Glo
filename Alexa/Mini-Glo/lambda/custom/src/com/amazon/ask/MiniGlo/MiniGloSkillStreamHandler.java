@@ -1,6 +1,7 @@
 package com.amazon.ask.MiniGlo;
 
 import com.amazon.ask.MiniGlo.handlers.*;
+import com.amazon.ask.MiniGlo.handlers.helpIntents.HelpTypeIntentHandler;
 import com.amazon.ask.Skills;
 import com.amazon.ask.SkillStreamHandler;
 
@@ -26,6 +27,7 @@ public class MiniGloSkillStreamHandler extends SkillStreamHandler
                     new EditBoardIntentHandler(),
                     new DeleteColumnIntentHandler(),
                     new DeleteCardIntentHandler(),
+                    new HelpTypeIntentHandler(),
                     new GloAndStartOverIntentHandler(),
                     new RepeatIntentHandler(),
                     new HelpIntentHandler(),

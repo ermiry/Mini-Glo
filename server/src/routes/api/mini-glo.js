@@ -215,9 +215,7 @@ router.post ('/boards/:board_id/columns', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({ name: req.body.name, position: 0 })
 		.then (result => {
-			console.log("It worked");
 			if (result.status === 201){ 
-				console.log("And erick es putotototototoottototote");
 				return res.status (200).json (result.body);
 			}
 			else {
@@ -272,6 +270,7 @@ router.delete ('/boards/:board_id/columns/:column_id', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
+      console.log("Deleted");
 			if (result.status === 204) return res.status (200).json ({ status: 200 });
 			else {
 				let errors = {};
