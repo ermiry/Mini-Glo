@@ -24,6 +24,7 @@ class App extends Component {
 				<Header />
 				{/* <Route exact path='/' component={ Landing } /> */}
 				<Landing />
+				{/* <Register /> */}
 
 				<div className="container">
 					{/* <Route exact path="/register" component={ Register } />
