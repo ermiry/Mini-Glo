@@ -22,10 +22,55 @@ router.post ('/test', (req, res) => {
 
 });
 
-/*** OAUTH ***/
+/*** AMAZON OAUTH ***/
+
+// @route   GET api/mini-glo/amazon
+// @desc    Handles mini glo oauth with amazon
+router.get ('/amazon', (req, res) => {
+
+	const { code } = req;
+	if (!code) {
+		res.send ({
+			succes: false,
+			message: 'Error: no code'
+		});
+	}
+
+	request.post ('https://www.amazon.com/auth/o2/token')
+		.set ('Accept', 'application/json')
+		.send ({
+			grant_type: process.env.grant_type_az,
+			client_id: process.env.client_id_az,
+			client_secret: process.env.client_secret_az,
+			code: code
+		})
+		.then (result => {
+			let data = result.body;
+			console.log ("AccessToken: " + result.body.access_token);
+		})
+		.catch (err => {
+			let errors = {};
+			console.error (err.message);
+			errors.board = 'Faild amazon oauth.';
+        	return res.status (400).json (errors); 
+		});
+
+});
+
+// @route   GET api/mini-glo/amazon/authorize
+// @desc    Handles amazon redirect uri
+router.get ('/amazon/authorize', (req, res) => {
+
+	request.get ("https://www.amazon.com/ap/oa?response_type=code&client_id=amzn1.application-oa2-client.6274094f2ab44fe19e029aec6f806e13&redirect_uri=https://ermiry.com/api/mini-glo/amazon&scope=profile:user_id");
+	console.log ("hola");
+	
+});
+
+
+/*** GITKRAKEN OAUTH ***/
 
 // @route   GET api/mini-glo/oauth
-// @desc    Handles mini glo oauth
+// @desc    Handles mini glo oauth with gitkraken
 router.get ('/oauth', (req, res) => {
 
 	const { code } = req;
@@ -39,19 +84,18 @@ router.get ('/oauth', (req, res) => {
 	request.post ('https://api.gitkraken.com/oauth/access_token')
 		.set ('Accept', 'application/json')
 		.send ({
-			grant_type: process.env.grant_type,
-			client_id: process.env.client_id,
-			client_secret: process.env.client_secret,
+			grant_type: process.env.grant_type_gk,
+			client_id: process.env.client_id_gk,
+			client_secret: process.env.client_secret_gk,
 			code: code
 		})
 		.then (result => {
-			/*** TODO: check this later ***/
 			res.send (result.body);
 		})
 		.catch (err => {
 			let errors = {};
 			console.error (err.message);
-			errors.board = 'Faild oauth.';
+			errors.board = 'Faild gitkraken oauth.';
         	return res.status (400).json (errors); 
 		});
 
@@ -61,18 +105,8 @@ router.get ('/oauth', (req, res) => {
 // @desc    Handles gitkraken authentication
 router.get ('/authorize', (req, res) => {
 
-	request.get ("https://app.gitkraken.com/oauth/authorize")
-		.then (result => {
-			// FIXME: redirect to the correct url 
-			res.sendFile (path.join (__dirname+'/html/index.html')); 
-			return res.status (200);	// TODO: what do we need here?
-		})
-		.catch (err => {
-			let errors = {};
-			console.error (err.message);
-			errors.board = 'Failed to request gitkraken auth.';
-			return res.status (400).json (errors); 
-		});
+	request.get ("https://app.gitkraken.com/oauth/authorize");
+	console.log ("hola gitkraken");
 	
 });
 
@@ -88,7 +122,7 @@ router.get ('/boards', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			if (result.status === 200) return res.status (200).json (result.body);
+			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed to get boards.';
@@ -224,7 +258,7 @@ router.post ('/boards/:board_id/columns', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({ name: req.body.name, position: 0 })
 		.then (result => {
-			if (result.status === 200) return res.status (200).json (result.body);
+			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed to create column.';
@@ -333,7 +367,7 @@ router.post ('/boards/:board_id/cards', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({})		// FIXME: send the correct data
 		.then (result => {
-			if (result.status === 200) return res.status (200).json (result.body);
+			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed to create card.';
@@ -549,7 +583,7 @@ router.post ('/boards/:board_id/cards/:card_id/comments', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({ text })
 		.then (result => {
-			if (result.status === 200) return res.status (200).json (result.body);
+			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed create comment.';
