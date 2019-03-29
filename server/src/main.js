@@ -1,3 +1,9 @@
+const result = require ('dotenv').config ({ path: './config/keys.env' });
+
+if (result.error) {
+  throw result.error
+}
+
 const express = require ('express');
 // const mongoose = require ('mongoose');
 const bodyParser = require ('body-parser');
@@ -35,6 +41,6 @@ app.use ('/api/mini-glo', miniglo);
 // catch all, for now redirect to the home page
 // app.get ("*", (req, res) => { res.redirect ("/"); });
 
-const port = process.env.PORT || 10000;
+const port = process.env.port || 10000;
 
 app.listen (port, () => console.log (`Server running on port ${port}`));

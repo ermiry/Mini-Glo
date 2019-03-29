@@ -36,14 +36,13 @@ router.get ('/oauth', (req, res) => {
 		});
 	}
 
-	// FIXME: move this to a protected file
 	request.post ('https://api.gitkraken.com/oauth/access_token')
 		.set ('Accept', 'application/json')
 		.send ({
-			grant_type: 'authorization_code',
-			client_id: 'b3rb17pn8k6y4z9hkyu4',
-			client_secret: 'ckn1m4yxi8h64ts7dzk45ybnv35a9ckqriy03rv6',
-			code: code 
+			grant_type: process.env.grant_type,
+			client_id: process.env.client_id,
+			client_secret: process.env.client_secret,
+			code: code
 		})
 		.then (result => {
 			/*** TODO: check this later ***/
