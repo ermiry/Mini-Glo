@@ -22,51 +22,6 @@ router.post ('/test', (req, res) => {
 
 });
 
-/*** AMAZON OAUTH ***/
-
-// @route   GET api/mini-glo/amazon
-// @desc    Handles mini glo oauth with amazon
-router.get ('/amazon', (req, res) => {
-
-	const { code } = req;
-	if (!code) {
-		res.send ({
-			succes: false,
-			message: 'Error: no code'
-		});
-	}
-
-	request.post ('https://www.amazon.com/auth/o2/token')
-		.set ('Accept', 'application/json')
-		.send ({
-			grant_type: process.env.grant_type_az,
-			client_id: process.env.client_id_az,
-			client_secret: process.env.client_secret_az,
-			code: code
-		})
-		.then (result => {
-			let data = result.body;
-			console.log ("AccessToken: " + result.body.access_token);
-		})
-		.catch (err => {
-			let errors = {};
-			console.error (err.message);
-			errors.board = 'Faild amazon oauth.';
-        	return res.status (400).json (errors); 
-		});
-
-});
-
-// @route   GET api/mini-glo/amazon/authorize
-// @desc    Handles amazon redirect uri
-router.get ('/amazon/authorize', (req, res) => {
-
-	request.get ("https://www.amazon.com/ap/oa?response_type=code&client_id=amzn1.application-oa2-client.6274094f2ab44fe19e029aec6f806e13&redirect_uri=https://ermiry.com/api/mini-glo/amazon&scope=profile:user_id");
-	console.log ("hola");
-	
-});
-
-
 /*** GITKRAKEN OAUTH ***/
 
 // @route   GET api/mini-glo/oauth
