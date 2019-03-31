@@ -45,7 +45,7 @@ router.get ('/oauth', (req, res) => {
 			code: code
 		})
 		.then (result => {
-			res.send (result.body);
+			res.status (200).json ({msg: 'success'});
 		})
 		.catch (err => {
 			let errors = {};
@@ -77,7 +77,7 @@ router.get ('/boards', (req, res) => {
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
-			if (result.status === 201) return res.status (200).json (result.body);
+			if (result.status === 200) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed to get boards.';
@@ -104,7 +104,7 @@ router.post ('/boards', (req, res) => {
 		.set ('Accept', 'application/json')
 		.send ({ name: req.body.boardName })
 		.then (result => {
-			if (result.status === 200) return res.status (200).json (result.body);
+			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
 				errors.board = 'Failed to create board.';
