@@ -49,7 +49,7 @@ public class CreateBoardIntentHandler implements RequestHandler {
                 params.put(Constants.TOKEN,accessToken);
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards",params);
-                board = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
                 if(board==null) throw new IOException();
                 sessionAttributes.put(Attributes.CURRENT_BOARD, board.toString());
             }catch(IOException | NullPointerException e) {
@@ -62,14 +62,14 @@ public class CreateBoardIntentHandler implements RequestHandler {
             } else responseText += " " + Constants.INCORRECT_CREATION;
 
             responseText += " ." + Constants.CONTINUE;
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

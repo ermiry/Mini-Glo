@@ -73,14 +73,14 @@ public class DeleteBoardIntentHandler implements RequestHandler {
                 status = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
             }
 
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech("Status " + status.get("status").getAsString())
                     .withShouldEndSession(false)
                     .build();
 
         } else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

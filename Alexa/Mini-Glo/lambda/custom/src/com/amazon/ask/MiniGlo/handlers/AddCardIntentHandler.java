@@ -20,14 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/*
-* TODO:
-* Ask for description of card
-* Add information from extension web
-* Add images
-* Add screenshots
-*
-* */
 public class AddCardIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -63,8 +55,7 @@ public class AddCardIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL
                                 + "/boards/" + board.get("id").getAsString(),params);
-
-                JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
+                if(in==null) throw new IOException();JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
                 System.out.println(columns);
                 column = null;
                 for(int i=0; i<columns.size(); i++){
@@ -89,7 +80,7 @@ public class AddCardIntentHandler implements RequestHandler {
                 in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/"+ board.get("id").getAsString() + "/cards",params);
-                card = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();card = new JsonParser().parse(in).getAsJsonObject();
 
                 sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
                 sessionAttributes.put(Attributes.CURRENT_CARD,card.toString());
@@ -107,17 +98,17 @@ public class AddCardIntentHandler implements RequestHandler {
 
                 responseText += ". " + Constants.CORRECT_CREATION;
                 responseText += ". Item Created: " + card.get("name").getAsString();
-            }else responseText += ". " + Constants.INCORRECT_CREATION;
+            }else responseText += ". " + Constants.INCORRECT_CREATION + ". Please ask mini glo how to create cards to retry";
             responseText += ". " + Constants.CONTINUE;
             sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

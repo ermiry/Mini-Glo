@@ -52,7 +52,7 @@ public class EditColumnIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/"+ board.get("id").getAsString(),params);
-                board = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
                 if(board == null) throw new IOException();
 
                 JsonArray columns = board.get("columns").getAsJsonArray();
@@ -76,7 +76,7 @@ public class EditColumnIntentHandler implements RequestHandler {
                 in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/"
                                 + board.get("id").getAsString() + "/columns/" + column.get("id").getAsString(),params);
-                column = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();column = new JsonParser().parse(in).getAsJsonObject();
 
                 if(column==null) throw new IOException();
 
@@ -94,19 +94,18 @@ public class EditColumnIntentHandler implements RequestHandler {
                 responseText += ". " + Constants.CORRECT_EDIT;
                 responseText += ". Item edited: "  + column.get("name").getAsString();
             }else responseText += ". " + Constants.INCORRECT_EDIT;
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()
                         .withSpeech("You lost connection, but we have reconnected. Please try again")
-                        .withReprompt(Constants.HELP_MESSAGE)
                         .withShouldEndSession(false)
                         .build();
             } else {

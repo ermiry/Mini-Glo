@@ -4,15 +4,11 @@ package com.amazon.ask.MiniGlo.api;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
@@ -29,8 +25,9 @@ public class FunctionApi {
 
     private  HttpURLConnection connection = null;
     private  final String USER_AGENT = "Mozilla/5.0";
-    public  final String UNIVERSAL_URL = "https://ea52f4e7.ngrok.io/api/mini-glo";
+    public  final String UNIVERSAL_URL = "https://ermiry.com/api/mini-glo";
 
+    //GET
     public  BufferedReader sendGet(String url, Map<String,String> params) throws IOException{
         if(params!=null && params.size()>0){
             url += "?";
@@ -55,13 +52,18 @@ public class FunctionApi {
 
         System.out.println("\nSending 'Get' request to URL: " + url);
         System.out.println("Response Code:" + responseCode );
-
-        return new BufferedReader(
-                new InputStreamReader(connection.getInputStream())
-        );
+        BufferedReader in;
+        if(responseCode!=400) {
+            in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream())
+            );
+        }else{
+            in = null;
+        }
+        return in;
 
     }
-
+    //DELETE
     public BufferedReader sendDelete(String url, Map<String,String> params) throws IOException{
         if(params!=null && params.size()>0){
             url += "?";
@@ -85,14 +87,16 @@ public class FunctionApi {
         int responseCode = connection.getResponseCode();
         System.out.println("Sending 'Delete' to url: " + url);
         System.out.println("Response Code:" + responseCode);
-        return new BufferedReader(
+        BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
+        return in;
     }
 
+    //DISCONNECT
     public  void disconnect(){
             if(connection!=null) connection.disconnect();
         }
-
+    //POST
     public  BufferedReader sendPost(String url, Map<String,String> params)throws IOException{
             URL obj = new URL(url);
             connection = (HttpURLConnection) obj.openConnection();
@@ -120,55 +124,25 @@ public class FunctionApi {
             writer.write(requestParams.toString());
             writer.flush();
             System.out.println(connection.getResponseCode());
-            return new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
+            BufferedReader in =new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            return in;
         }
-
-    public String getAccessToken(){
-        String token;
-        try{
-            JsonElement tokenElement;
-            JsonObject obj = null;
-            Map<String,String> params = new HashMap<>();
-            BufferedReader in = sendGet(UNIVERSAL_URL+"/token",params);
-            try {
-                 obj = new JsonParser().parse(in).getAsJsonObject();
-            }catch(IllegalStateException e){
-                e.printStackTrace();
-            }
-
-            if(obj==null) throw new IOException();
-            else tokenElement = obj.get("token");
-            if(tokenElement==null) throw new IOException();
-            else token = tokenElement.getAsString();
-        }catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Token wasnt founded or is null");
-            token = "";
-        }
-        disconnect();
-        return token;
-
-    }
 
 
     public Optional<Response> badAuthentication(String accessToken,HandlerInput input){
-        String currentAccessToken = getAccessToken();
+        String currentAccessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
 
         if(!accessToken.equals(currentAccessToken))
 
             return input.getResponseBuilder()
-                    .withSpeech("You are not authenticated, please reconnect through the chrome extension")
+                    .withSpeech("You are not authenticated, please go to Alexa App to authenticate")
                     .withReprompt(Constants.HELP_MESSAGE)
+                    .withLinkAccountCard()
                     .withShouldEndSession(true)
                     .build();
         else
             return Optional.empty();
     }
-
-    public String reAuthenticate(){
-        return getAccessToken();
-    }
-
 
 }

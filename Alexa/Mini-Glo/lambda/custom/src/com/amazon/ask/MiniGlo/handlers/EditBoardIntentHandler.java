@@ -47,8 +47,7 @@ public class EditBoardIntentHandler implements RequestHandler {
                 if(boardName!=null) {
                     BufferedReader in = FunctionApi.getSharedInstance()
                             .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards", params);
-
-                    JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
+                    if(in==null) throw new IOException();JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
                     if (boards != null) {
                         for (int i = 0; i < boards.size(); i++) {
                             board = boards.get(i).getAsJsonObject();
@@ -62,7 +61,7 @@ public class EditBoardIntentHandler implements RequestHandler {
                     in = FunctionApi.getSharedInstance()
                             .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/" +
                                     board.get("id").getAsString(),params);
-                    board = new JsonParser().parse(in).getAsJsonObject();
+                    if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
                     if(board==null) throw new IOException();
                 }else{
                     if(sessionAttributes.get(Attributes.CURRENT_BOARD)==null || newBoardName==null) throw new IOException();
@@ -72,7 +71,7 @@ public class EditBoardIntentHandler implements RequestHandler {
                     BufferedReader in = FunctionApi.getSharedInstance()
                             .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL + "/boards/" +
                                     board.get("id").getAsString(),params);
-                    board = new JsonParser().parse(in).getAsJsonObject();
+                    if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
                     if(board==null) throw new IOException();
                 }
                 sessionAttributes.put(Attributes.CURRENT_BOARD,board);
@@ -91,7 +90,7 @@ public class EditBoardIntentHandler implements RequestHandler {
 
 
             responseText += Constants.CONTINUE;
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withShouldEndSession(false)
@@ -99,7 +98,7 @@ public class EditBoardIntentHandler implements RequestHandler {
 
 
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

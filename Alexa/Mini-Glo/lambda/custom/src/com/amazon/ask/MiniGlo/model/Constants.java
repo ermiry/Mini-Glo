@@ -20,12 +20,11 @@ public class Constants {
     public static final String[] EXPRESSION  =
     {"<say-as interpret-as='interjection'>", "</say-as><break strength='strong'/>"};
 
-    public static final List<String> CORRECT_RESPONSES = Arrays.asList("Booya", "All righty", "Bam", "Bazinga", "Bingo", "Boom", "Bravo", "Cha Ching", "Cheers", "Dynomite",
-            "Hip hip hooray", "Hurrah", "Hurray", "Huzzah", "Oh dear.  Just kidding.  Hurray", "Kaboom", "Kaching", "Oh snap", "Phew",
-            "Righto", "Way to go", "Well done", "Whee", "Woo hoo", "Yay", "Wowza", "Yowsa");
+    public static final List<String> CORRECT_RESPONSES = Arrays.asList("Booya", "All righty","Bazinga", "Bingo", "Boom", "Cha Ching",
+            "Hip hip hooray", "Hurrah", "Hurray",  "Oh dear.  Just kidding.  Hurray");
     public static final String CORRECT_EDIT = "The item was correctly edited. ";
     public static final String INCORRECT_EDIT = "The item wasnt correctly edited. ";
 
-    public static List<String> INCORRECT_RESPONSES = Arrays.asList("Argh", "Aw man", "Blarg", "Blast", "Boo", "Bummer", "Darn", "D'oh", "Dun dun dun", "Eek", "Honk", "Le sigh",
-            "Mamma mia", "Oh boy", "Oh dear", "Oof", "Ouch", "Ruh roh", "Shucks", "Uh oh", "Wah wah", "Whoops a daisy", "Yikes");
+    public static List<String> INCORRECT_RESPONSES = Arrays.asList("Boo", "Bummer", "Darn", "D'oh", "Eek", "Honk",
+             "Oh boy", "Oh dear", "Ouch", "Uh oh");
 }

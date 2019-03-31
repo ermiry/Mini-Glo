@@ -50,7 +50,7 @@ public class AddColumnIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/" + board.get("id").getAsString() + "/columns",params);
-                column = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();column = new JsonParser().parse(in).getAsJsonObject();
                 if(column==null) throw new IOException();
             }catch(IOException | NullPointerException e){
                 e.printStackTrace();
@@ -67,14 +67,27 @@ public class AddColumnIntentHandler implements RequestHandler {
             responseText += ". " + Constants.CONTINUE;
 
 
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
 
-        }else return response;
+        }else {
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
+            if (accessToken != null) {
+                sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
+                return input.getResponseBuilder()
+                        .withSpeech("You lost connection, but we have reconnected. Please try again")
+                        .withShouldEndSession(false)
+                        .build();
+            } else {
+                sessionAttributes.remove(Attributes.ACCESS_TOKEN);
+                return response;
+            }
+
+        }
     }
 
 

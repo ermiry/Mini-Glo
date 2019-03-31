@@ -1,6 +1,5 @@
 package com.amazon.ask.MiniGlo.handlers;
 
-import com.amazon.ask.MiniGlo.api.FunctionApi;
 import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -21,12 +20,12 @@ public class LaunchRequestHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = new FunctionApi().getAccessToken();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
         String reprompt;
         System.out.println("Access Token: " + accessToken);
         if(!accessToken.equals("")) sessionAttributes.put(Attributes.ACCESS_TOKEN,accessToken);
-        else sessionAttributes.put(Attributes.ACCESS_TOKEN,"Null");
+        else sessionAttributes.put(Attributes.ACCESS_TOKEN,"null");
 
         if(!accessToken.equals("")){
             reprompt  = Constants.HELP_MESSAGE;
@@ -39,7 +38,7 @@ public class LaunchRequestHandler implements RequestHandler {
         else {
             return input.getResponseBuilder()
                     .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
-                            "Please see alexa app to log in")
+                            "Please see Mini-Glo extension to log in")
                    .build();
         }
 

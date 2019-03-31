@@ -50,7 +50,7 @@ public class DeleteColumnIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/" + board.get("id").getAsString(),params);
-                board = new JsonParser().parse(in).getAsJsonObject();
+                if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
 
                 JsonArray columns = board.get("columns").getAsJsonArray();
                 if(columns==null) throw new IOException();
@@ -73,7 +73,7 @@ public class DeleteColumnIntentHandler implements RequestHandler {
                 e.printStackTrace();
                 correct = false;
             }
-
+            FunctionApi.getSharedInstance().disconnect();
             responseText = new GloUtils().getSpeechCon(correct);
             if(correct)
                 responseText += ". Item correctly deleted. Item deleted: "+ column.get("name");
@@ -87,8 +87,19 @@ public class DeleteColumnIntentHandler implements RequestHandler {
                     .withShouldEndSession(false)
                     .build();
 
-        }else
+        }else {
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
+            if (accessToken != null) {
+                sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
+                return input.getResponseBuilder()
+                        .withSpeech("You lost connection, but we have reconnected. Please try again")
+                        .withShouldEndSession(false)
+                        .build();
+            } else {
+                sessionAttributes.remove(Attributes.ACCESS_TOKEN);
+                return response;
+            }
 
-        return response;
+        }
     }
 }

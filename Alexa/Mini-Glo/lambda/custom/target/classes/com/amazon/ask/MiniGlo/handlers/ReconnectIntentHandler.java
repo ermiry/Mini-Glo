@@ -21,11 +21,13 @@ public class ReconnectIntentHandler implements RequestHandler {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
         if(!FunctionApi.getSharedInstance().badAuthentication(accessToken,input).equals(Optional.empty())){
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
+            FunctionApi.getSharedInstance().disconnect();
             if(accessToken.equals(""))
                 return input.getResponseBuilder()
                 .withSpeech("It was impossible to reconnect, please go to the" +
-                        "extension in chrome to sign in again.")
+                        "Alexa app and re-authenticate")
+                .withLinkAccountCard()
                 .withShouldEndSession(true)
                 .build();
             else
@@ -33,6 +35,7 @@ public class ReconnectIntentHandler implements RequestHandler {
                 .withSpeech("Reconnected correctly")
                 .withShouldEndSession(false)
                 .build();
+
         }
         return input.getResponseBuilder()
                 .withSpeech("You are already authenticated")

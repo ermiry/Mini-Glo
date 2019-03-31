@@ -49,6 +49,7 @@ public class OpenBoardIntentHandler implements RequestHandler {
                 params.put(Constants.TOKEN, accessToken);
                 BufferedReader in = FunctionApi.getSharedInstance().sendGet(FunctionApi.getSharedInstance()
                         .UNIVERSAL_URL + "/boards", params);
+                if(in==null) throw new IOException();
                 JsonArray boards = new JsonParser().parse(in).getAsJsonArray();
                 if (boards == null) throw new IOException();
                     int i;
@@ -59,7 +60,6 @@ public class OpenBoardIntentHandler implements RequestHandler {
                     }
                 }
                 if(board==null|| boards.size()==i) throw new IOException();
-                if(board.get("status").getAsString().equals("400")) throw new IOException();
             } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
                 board = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
@@ -73,14 +73,14 @@ public class OpenBoardIntentHandler implements RequestHandler {
                 speechOutput += ".  Item Showed:" + boardName.getValue();
             } else speechOutput += Constants.INCORRECT_SHOW;
             speechOutput += ". " + Constants.CONTINUE;
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(speechOutput)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
         } else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

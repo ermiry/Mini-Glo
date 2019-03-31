@@ -47,8 +47,7 @@ public class DeleteCardIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/" + board.get("id").getAsString() + "/cards" ,params);
-
-                JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
+                if(in==null) throw new IOException();JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
 
                 if(cards==null) throw new IOException();
                 int i;
@@ -77,14 +76,14 @@ public class DeleteCardIntentHandler implements RequestHandler {
             if(correct) responseText+=". The item was correctly Deleted, Item deleted: " + card.get("name").getAsString();
             else responseText+=". The item wasnt correctly Deleted";
             responseText+= Constants.CONTINUE;
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withShouldEndSession(false)
                     .build();
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()

@@ -59,7 +59,7 @@ public class EditCardIntentHandler implements RequestHandler {
                             .sendGet(FunctionApi
                                     .getSharedInstance().UNIVERSAL_URL + "/boards/" + board.get("id").getAsString()
                                     + "/cards", params);
-                    JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
+                    if(in==null) throw new IOException();JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
                     if(cards==null) throw new IOException();
                     for(int i=0; i<cards.size(); i++){
                         card = cards.get(i).getAsJsonObject();
@@ -105,8 +105,7 @@ public class EditCardIntentHandler implements RequestHandler {
                                     + "/boards/"+ board.get("id").getAsString()
 
                                     + "/cards/" + card.get("id").getAsString() ,params);
-
-                    card = new JsonParser().parse(in).getAsJsonObject();
+                    if(in==null) throw new IOException();card = new JsonParser().parse(in).getAsJsonObject();
                     if(card==null) throw new IOException();
 
                 }catch(IOException | NullPointerException e){
@@ -124,13 +123,13 @@ public class EditCardIntentHandler implements RequestHandler {
                 responseText += " .The item was correctly Edited";
                 responseText +=" .Item edited: " + card.get("name").getAsString();
             }else responseText += " .The item wasnt correctly edited";
-
+            FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withShouldEndSession(false)
                     .build();
         }else {
-            accessToken = FunctionApi.getSharedInstance().reAuthenticate();
+            accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {
                 sessionAttributes.put(Attributes.ACCESS_TOKEN, accessToken);
                 return input.getResponseBuilder()
