@@ -13,5 +13,12 @@
     "1064": "logo.png"
   },
 
+  "permissions": ["storage"],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
   "manifest_version": 2
 }
