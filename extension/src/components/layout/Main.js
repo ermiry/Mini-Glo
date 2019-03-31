@@ -8,24 +8,41 @@ import { getUser } from '../../actions/userActions';
 
 // my componets
 import Register from '../auth/Register';
+import TextField from '../common/TextField';
 
 class Main extends Component {
 
-    constructor () { super (); }
+    constructor () { 
+        super (); 
+        this.state = {
+            token: '',
+            errors: {}
+        };
+    }
+
+    onChange = e => { this.setState ({ [e.target.name]: e.target.value }); }
 
     onSubmit = e => {
         e.preventDefault();
-        this.props.authorize ();
+        this.props.authorize (this.state.token);
     }
 
     render() {
+        let { errors } = this.state;
+
         let content;
         if (!this.props.auth.isAuthenticated) {
             content = (
                 <div>
-                    <form onSubmit={this.onSubmit}>
+                    <form onSubmit={ this.onSubmit }>
                         <Register />
-                            {/* <button onClick={ this.submitToken }>Submit token</button> */}
+                        <TextField
+                            placeholder="Token"
+                            name="token"
+                            value={ this.state.token }
+                            onChange={ this.onChange }
+                            error={ errors.token }
+                        />
                         <input type="submit" className="btn btn-info btn-block mt-4" />
                     </form>
                 </div>
