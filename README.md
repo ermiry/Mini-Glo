@@ -15,7 +15,7 @@
 
   You can also see for youself a little demonstration on how our skill wokrs here: https://www.youtube.com/watch?v=D2ghWLkUIL4&feature=youtu.be
 
-### Chrome Browser Extensio
+### Chrome Browser Extension
 
   The Mini Glo Chrome extension is being developed using React and works by using our own api to forward the requests to the Glo api, this is for it to be directly connect to our Alexa skill and we can provide a more delightful user experience.
 
