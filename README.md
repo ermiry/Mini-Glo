@@ -1,4 +1,6 @@
-![alt text](./assets/mini-glo-logo-50.png)
+<p align="center">
+  <img src="./assets/mini-glo-logo-50.png" />
+</p>
 
 **Mini-Glo** is a project developed by Juan Carlos Lara and Erick Salas using Gitkraken's Glo Boards api to create an Amazon Alexa skill, a Chrome Browser extensiona and a custom api hosted at https://ermiry.com/api/mini-glo to glue the projects together.
 
