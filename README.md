@@ -1,3 +1,5 @@
+![alt text](./assets/Mini-Glo-logo.png)
+
 **Mini-Glo** is a project developed by Juan Carlos Lara and Erick Salas using Gitkraken's Glo Boards api to create an Amazon Alexa skill, a Chrome Browser extensiona and a custom api hosted at https://ermiry.com/api/mini-glo to glue the projects together.
 
 ### H2 Development Status
