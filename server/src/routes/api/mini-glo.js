@@ -28,13 +28,7 @@ router.post ('/test', (req, res) => {
 // @desc    Handles mini glo oauth with gitkraken
 router.get ('/oauth', (req, res) => {
 
-	const { code } = req;
-	if (!code) {
-		res.send ({
-			succes: false,
-			message: 'Error: no code'
-		});
-	}
+	let code = req.query.code;
 
 	request.post ('https://api.gitkraken.com/oauth/access_token')
 		.set ('Accept', 'application/json')
@@ -45,12 +39,12 @@ router.get ('/oauth', (req, res) => {
 			code: code
 		})
 		.then (result => {
-			res.status (200).json ({msg: 'success'});
+			res.render ('mini-glo-callback.ejs', { token: result.body.access_token });
 		})
 		.catch (err => {
 			let errors = {};
 			console.error (err.message);
-			errors.board = 'Faild gitkraken oauth.';
+			errors.board = 'Faild to get access token.';
         	return res.status (400).json (errors); 
 		});
 
@@ -156,7 +150,7 @@ router.post ('/boards/:board_id', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({ name })		// we can only edit the name
+		.send ({ name: req.body.new_name })		// we can only edit the name
 		.then (result => {
 			if (result.status === 200) return res.status (200).json (result.body);
 			else {
@@ -208,7 +202,7 @@ router.post ('/boards/:board_id/columns', (req, res) => {
 
 	let token = req.body.token;
 
-	request.post (gloapiurl + 'boards/' + req.params.board_id + 'columns')
+	request.post (gloapiurl + 'boards/' + req.params.board_id + '/columns')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.send ({ name: req.body.name, position: 0 })
@@ -315,13 +309,22 @@ router.get ('/boards/:board_id/cards', (req, res) => {
 // @desc    Creates a new card in a column
 router.post ('/boards/:board_id/cards', (req, res) => {
 
+	console.log (req.body);
+
 	let token = req.body.token;
+	let data = {
+			name: req.body.name,
+			position: 0,
+			column_id: req.body.column_id }
+	if (req.body.description != "null") data.description = { text: req.body.description };
 
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})		// FIXME: send the correct data
+		.send (data)
 		.then (result => {
+			console.log (result);
+
 			if (result.status === 201) return res.status (200).json (result.body);
 			else {
 				let errors = {};
@@ -368,13 +371,24 @@ router.get ('/boards/:board_id/cards/:card_id', (req, res) => {
 // @desc    Edits a card
 router.post ('/boards/:board_id/cards/:card_id', (req, res) => {
 
+	console.log (req.body);
+
 	let token = req.body.token;
+	let data = {
+			name: req.body.name,
+			position: 0,
+			column_id: req.body.column_id }
+	if (req.body.description != "null") data.description = req.body.description;
+	if (req.body.due_date != "null") data.due_date = req.body.due_date;
+	if (req.body.label != "null") data.label = req.body.label;
 
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({})	// FIXME: send the data
+		.send ({ data })	
 		.then (result => {
+			console.log (result);
+
 			if (result.status === 200) return res.status (200).json (result.body);
 			else {
 				let errors = {};
@@ -397,7 +411,7 @@ router.delete ('/boards/:board_id/cards/:card_id', (req, res) => {
 
 	let token = req.query.token;
 
-	request.delte (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
+	request.delete (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
 		.then (result => {
@@ -536,7 +550,7 @@ router.post ('/boards/:board_id/cards/:card_id/comments', (req, res) => {
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id + '/comments')
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({ text })
+		.send ({ text: req.body.text })
 		.then (result => {
 			if (result.status === 201) return res.status (200).json (result.body);
 			else {
@@ -563,7 +577,7 @@ router.post ('/boards/:board_id/cards/:card_id/comments/:comment_id', (req, res)
 	request.post (gloapiurl + 'boards/' + req.params.board_id + '/cards/' + req.params.card_id + '/comments/' + req.params.comment_id)
 		.auth (token, { type: "bearer" })
 		.set ('Accept', 'application/json')
-		.send ({ text })
+		.send ({ text: req.body.text })
 		.then (result => {
 			if (result.status === 200) return res.status (200).json (result.body);
 			else {
