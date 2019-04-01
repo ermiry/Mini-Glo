@@ -1,0 +1,19 @@
+{
+  "name": "mini-glo-server",
+  "version": "1.0.0",
+  "description": "Mini Glo Server api",
+  "main": "main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "author": "Erick Salas",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.17",
+    "superagent": "^4.1.0"
+  }
+}
