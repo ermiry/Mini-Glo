@@ -74,7 +74,7 @@ public class EditBoardIntentHandler implements RequestHandler {
                     if(in==null) throw new IOException();board = new JsonParser().parse(in).getAsJsonObject();
                     if(board==null) throw new IOException();
                 }
-                sessionAttributes.put(Attributes.CURRENT_BOARD,board);
+                sessionAttributes.put(Attributes.CURRENT_BOARD,board.toString());
             }catch(IOException | NullPointerException e){
                 e.printStackTrace();
                 correct = false;
@@ -82,21 +82,24 @@ public class EditBoardIntentHandler implements RequestHandler {
 
 
             responseText = new GloUtils().getSpeechCon(correct);
+
             if(correct){
+                System.out.println("This passed the proves");
                 responseText+= ". " + Constants.CORRECT_EDIT;
-                responseText += ". Item edited: " + board.get("name");
+                responseText += " Item edited: " + board.get("name").getAsString();
             }else
                 responseText += ". " + Constants.INCORRECT_EDIT;
 
 
             responseText += Constants.CONTINUE;
             FunctionApi.getSharedInstance().disconnect();
+
+            System.out.println(responseText);
+
             return input.getResponseBuilder()
                     .withSpeech(responseText)
                     .withShouldEndSession(false)
                     .build();
-
-
         }else {
             accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             if (accessToken != null) {

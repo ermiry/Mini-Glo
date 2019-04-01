@@ -81,12 +81,12 @@ public class HelpTypeIntentHandler  implements RequestHandler {
                                 break;
                             case "EDIT":
                                 responseText = "For Cards, to edit you can say. " +
-                                        "Add description (and the description) to card (and the name). or "+
-                                        "Add label (and the label name) to card (and the name). or. " +
-                                        "Add due date (and the date) to card (and the name). or. " +
-                                        "Change due date of card (and the name) for (and the date). or. " +
-                                        "Remove label (and the label name) of card (and the name). or. " +
-                                        "Change description of card (and the name) for (and the description)";
+                                        "Add description (and the description) to card called (and the name). or "+
+                                        "Add label (and the label name) to card called (and the name). or. " +
+                                        "Add due date (and the date) to card called (and the name). or. " +
+                                        "Change due date of card called (and the name) for (and the date). or. " +
+                                        "Remove label (and the label name) of card called (and the name). or. " +
+                                        "Change description of card called (and the name) for (and the description)";
                                 break;
                             case "DELETE":
                                 responseText = "For Cards, to delete you can say. " +

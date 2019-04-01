@@ -123,9 +123,13 @@ public class FunctionApi {
                     connection.getOutputStream());
             writer.write(requestParams.toString());
             writer.flush();
-            System.out.println(connection.getResponseCode());
-            BufferedReader in =new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
+            int responseCode = connection.getResponseCode();
+            System.out.println(responseCode);
+            BufferedReader in;
+            if(responseCode!=400) {
+                in = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()));
+            }else in = null;
             return in;
         }
 

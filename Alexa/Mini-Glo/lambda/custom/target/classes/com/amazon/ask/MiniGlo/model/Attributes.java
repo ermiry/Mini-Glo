@@ -12,4 +12,5 @@ public class Attributes {
     public static final String CURRENT_BOARD = "currentBoard";
     public static final String CURRENT_COLUMN = "currentColumn";
     public static final String CURRENT_CARD = "currentCard";
+    public static final String CURRENT_COMMENT = "currentComment";
 }

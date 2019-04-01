@@ -37,6 +37,7 @@ public class DeleteBoardIntentHandler implements RequestHandler {
             Map<String, Slot> slots = intentRequest.getIntent().getSlots();
             Slot boardName = slots.get("boardName");
             JsonObject board;
+            String responseText;
             try {
                 Map<String, String> params = new HashMap<>();
                 params.put(Constants.TOKEN, accessToken);
@@ -73,9 +74,15 @@ public class DeleteBoardIntentHandler implements RequestHandler {
                 status = new JsonParser().parse(Constants.JSON_NULL).getAsJsonObject();
             }
 
+            if(status.get("status").getAsString().equals("200"))
+                responseText = "Item correcly Deleted";
+            else responseText = "The item wasnt correctly Deleted, are you sure it exist?";
+
+            responseText += Constants.CONTINUE;
+
             FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
-                    .withSpeech("Status " + status.get("status").getAsString())
+                    .withSpeech(responseText)
                     .withShouldEndSession(false)
                     .build();
 

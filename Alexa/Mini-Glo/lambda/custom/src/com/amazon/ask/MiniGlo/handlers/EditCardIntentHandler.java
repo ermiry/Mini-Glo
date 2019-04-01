@@ -59,9 +59,11 @@ public class EditCardIntentHandler implements RequestHandler {
                             .sendGet(FunctionApi
                                     .getSharedInstance().UNIVERSAL_URL + "/boards/" + board.get("id").getAsString()
                                     + "/cards", params);
-                    if(in==null) throw new IOException();JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
+                    if(in==null) throw new IOException();
+                    JsonArray cards = new JsonParser().parse(in).getAsJsonArray();
                     if(cards==null) throw new IOException();
-                    for(int i=0; i<cards.size(); i++){
+                    int i;
+                    for(i=0; i<cards.size(); i++){
                         card = cards.get(i).getAsJsonObject();
                         if(card!=null) {
                             if (card.get("name").getAsString().equals(cardName.getValue())) {
@@ -69,12 +71,12 @@ public class EditCardIntentHandler implements RequestHandler {
                             }
                         }
                     }
-                    if(card==null) throw new IOException();
+                    if(card==null || card.size()==i) throw new IOException();
 
                     if(board.has("labels")) {
                         JsonArray labels = board.get("labels").getAsJsonArray();
                         JsonObject labelJ;
-                        for (int i = 0; i < labels.size(); i++) {
+                        for (i = 0; i < labels.size(); i++) {
                             labelJ = labels.get(i).getAsJsonObject();
                             if (labelJ != null) {
                                 if (labelJ.get("name").getAsString().equals(label.getValue())) {
@@ -83,27 +85,28 @@ public class EditCardIntentHandler implements RequestHandler {
                                 }
                             }
                         }
-                    }else params.put("labels",null);
-                    if(description!=null) params.put("description",description.getValue());
+                    }else params.put("labels","null");
 
+                    System.out.println(description.getValue());
+
+                    if(description.getValue()!=null) params.put("description",description.getValue());
                     else if(card.has("description"))
                         params.put("description",card.get("description").getAsString());
-                    else params.put("description",null);
+                    else params.put("description","null");
 
-                    if(due_date!=null) params.put("due_date",due_date.getValue());
+                    if(due_date.getValue()!=null) params.put("due_date",due_date.getValue());
 
                     else if(card.has("due_date"))
                         params.put("due_date",card.get("due_date").getAsString());
-                    else params.put("due_date",null);
+                    else params.put("due_date","null");
 
-                    if(newCardName!=null) params.put("name",newCardName.getValue());
-
+                    if(newCardName!=null && newCardName.getValue()!=null)
+                        params.put("name",newCardName.getValue());
                     else params.put("name",card.get("name").getAsString());
-
+                    //FIXME:
                     in = FunctionApi.getSharedInstance()
                             .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL
                                     + "/boards/"+ board.get("id").getAsString()
-
                                     + "/cards/" + card.get("id").getAsString() ,params);
                     if(in==null) throw new IOException();card = new JsonParser().parse(in).getAsJsonObject();
                     if(card==null) throw new IOException();

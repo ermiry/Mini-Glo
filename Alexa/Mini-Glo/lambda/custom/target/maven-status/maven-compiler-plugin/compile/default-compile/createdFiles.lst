@@ -21,6 +21,7 @@ com/amazon/ask/MiniGlo/api/Card.class
 com/amazon/ask/MiniGlo/handlers/AddCardIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/SessionEndedHandler.class
 com/amazon/ask/MiniGlo/handlers/RepeatIntentHandler.class
+com/amazon/ask/MiniGlo/handlers/CreateCommentIntentHandler.class
 com/amazon/ask/MiniGlo/model/Constants.class
 com/amazon/ask/MiniGlo/handlers/ReconnectIntentHandler.class
 com/amazon/ask/MiniGlo/handlers/AddColumnIntentHandler.class

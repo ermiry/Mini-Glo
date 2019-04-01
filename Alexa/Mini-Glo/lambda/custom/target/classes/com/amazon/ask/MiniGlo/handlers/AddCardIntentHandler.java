@@ -55,7 +55,10 @@ public class AddCardIntentHandler implements RequestHandler {
                 BufferedReader in = FunctionApi.getSharedInstance()
                         .sendGet(FunctionApi.getSharedInstance().UNIVERSAL_URL
                                 + "/boards/" + board.get("id").getAsString(),params);
-                if(in==null) throw new IOException();JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
+                if(in==null) throw new IOException();
+                JsonArray columns = new JsonParser().parse(in).getAsJsonObject().get("columns").getAsJsonArray();
+                if(columns==null)throw new IOException();
+
                 System.out.println(columns);
                 column = null;
                 for(int i=0; i<columns.size(); i++){
@@ -71,16 +74,21 @@ public class AddCardIntentHandler implements RequestHandler {
                 }
 
                 if(column==null) throw new IOException();
+
+
                 String description = slots.get("description").getValue();
+                System.out.println(slots.get("cardName").getValue());
                 params.put("name",slots.get("cardName").getValue());
-                if(description==null) description="";
+                if(description==null) description="null";
                 params.put("description", description);
 
 
                 in = FunctionApi.getSharedInstance()
                         .sendPost(FunctionApi.getSharedInstance().UNIVERSAL_URL +
                                 "/boards/"+ board.get("id").getAsString() + "/cards",params);
-                if(in==null) throw new IOException();card = new JsonParser().parse(in).getAsJsonObject();
+
+                if(in==null) throw new IOException();
+                card = new JsonParser().parse(in).getAsJsonObject();
 
                 sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
                 sessionAttributes.put(Attributes.CURRENT_CARD,card.toString());
