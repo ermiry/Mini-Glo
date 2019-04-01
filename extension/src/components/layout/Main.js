@@ -25,10 +25,12 @@ class Main extends Component {
     onSubmit = e => {
         e.preventDefault();
         this.props.authorize (this.state.token);
+        this.props.getUser ();
     }
 
-    render() {
-        let { errors } = this.state;
+    render () {
+        // let { user } = this.state.user;
+        // let { errors } = this.state.errors;
 
         let content;
         if (!this.props.auth.isAuthenticated) {
@@ -41,7 +43,7 @@ class Main extends Component {
                             name="token"
                             value={ this.state.token }
                             onChange={ this.onChange }
-                            error={ errors.token }
+                            // error={ errors.token }
                         />
                         <input type="submit" className="btn btn-info btn-block mt-4" />
                     </form>
@@ -49,7 +51,11 @@ class Main extends Component {
                 );
         }
             
-        else content = (<h1>You have logged in successfully!</h1>);
+        else {
+            this.props.getUser ();
+            if (this.props.auth.user)
+                content = (<h1>{this.props.auth.user.name}</h1>);
+        } 
 
         return (
             <div>
@@ -65,7 +71,7 @@ Main.propTypes = {
     getUser: PropTypes.func.isRequired,
     authorize: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({

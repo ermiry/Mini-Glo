@@ -13,7 +13,7 @@
     "1064": "logo.png"
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "http://*/*"],
 
   "background": {
     "scripts": ["background.js"],

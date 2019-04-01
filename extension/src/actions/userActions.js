@@ -11,14 +11,16 @@ import {
 export const getUser = () => dispatch => {
 
     dispatch (clearErrors ());
-    axios.get ('/api/mini-glo/user')
+    axios.get ('http://ermiry.com/api/mini-glo/user?token=' + localStorage.token)
         .then (res => {
+            console.log (res.data);
             dispatch ({
-                type: GET_USER,
+                type: SET_CURRENT_USER,
                 payload: res.data
             })
         })
         .catch (err => {
+            console.log (err.response.data);
             dispatch ({
                 type: GET_ERRORS,
                 payload: err.response.data

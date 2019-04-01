@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { SET_TOKEN } from './types';
 
 export const authorize = (token) => dispatch => {
