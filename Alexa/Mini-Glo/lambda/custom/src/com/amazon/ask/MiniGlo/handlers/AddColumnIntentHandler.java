@@ -31,7 +31,7 @@ public class AddColumnIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken  = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken  = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
         if(response.equals(Optional.empty())) {
             IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
@@ -63,7 +63,8 @@ public class AddColumnIntentHandler implements RequestHandler {
                 responseText += ". " + Constants.CORRECT_CREATION;
                 responseText += ". Item Created: " + column.get("name").getAsString();
             }else
-                responseText += ". " + Constants.INCORRECT_CREATION;
+                responseText += ". " + Constants.INCORRECT_CREATION + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
+
             responseText += ". " + Constants.CONTINUE;
 
 

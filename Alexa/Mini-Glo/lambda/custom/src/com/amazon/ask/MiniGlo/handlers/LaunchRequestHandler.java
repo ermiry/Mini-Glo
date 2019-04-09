@@ -24,10 +24,10 @@ public class LaunchRequestHandler implements RequestHandler {
         sessionAttributes.put(Attributes.STATE_KEY,Attributes.START_STATE);
         String reprompt;
         System.out.println("Access Token: " + accessToken);
-        if(!accessToken.equals("")) sessionAttributes.put(Attributes.ACCESS_TOKEN,accessToken);
+        if(accessToken!=null) sessionAttributes.put(Attributes.ACCESS_TOKEN,accessToken);
         else sessionAttributes.put(Attributes.ACCESS_TOKEN,"null");
 
-        if(!accessToken.equals("")){
+        if(accessToken!=null){
             reprompt  = Constants.HELP_MESSAGE;
             return input.getResponseBuilder()
                     .withSpeech(Constants.WELCOME_MESSAGE + reprompt)
@@ -37,8 +37,9 @@ public class LaunchRequestHandler implements RequestHandler {
         }
         else {
             return input.getResponseBuilder()
-                    .withSpeech(Constants.WELCOME_MESSAGE + "." + "You arent registered to mini-glo. " +
-                            "Please see Mini-Glo extension to log in")
+                    .withSpeech(Constants.WELCOME_MESSAGE + " " + "You arent registered to mini-glo. " +
+                            "Please see Alexa app to log in")
+                    .withLinkAccountCard()
                    .build();
         }
 

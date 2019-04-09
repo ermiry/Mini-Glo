@@ -29,7 +29,7 @@ public class EditBoardIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
         boolean correct = true;
         String responseText;
@@ -86,9 +86,9 @@ public class EditBoardIntentHandler implements RequestHandler {
             if(correct){
                 System.out.println("This passed the proves");
                 responseText+= ". " + Constants.CORRECT_EDIT;
-                responseText += " Item edited: " + board.get("name").getAsString() +". ";
+                responseText += " Item edited: " + board.get("name").getAsString() +".input ";
             }else
-                responseText += ". " + Constants.INCORRECT_EDIT;
+                responseText += ". " + Constants.INCORRECT_EDIT ;
 
 
             responseText += Constants.CONTINUE;

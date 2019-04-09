@@ -30,7 +30,7 @@ public class CreateBoardIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
 
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
 
         if(response.equals(Optional.empty())) {
@@ -59,7 +59,7 @@ public class CreateBoardIntentHandler implements RequestHandler {
             responseText = new GloUtils().getSpeechCon(correct);
             if (correct) {
                 responseText += " " + Constants.CORRECT_CREATION;
-            } else responseText += " " + Constants.INCORRECT_CREATION;
+            } else responseText += " " + Constants.INCORRECT_CREATION  + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
 
             responseText += " ." + Constants.CONTINUE;
             FunctionApi.getSharedInstance().disconnect();

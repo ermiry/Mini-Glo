@@ -2,6 +2,7 @@ package com.amazon.ask.MiniGlo.handlers;
 
 import com.amazon.ask.MiniGlo.api.FunctionApi;
 import com.amazon.ask.MiniGlo.model.Attributes;
+import com.amazon.ask.MiniGlo.model.Constants;
 import com.amazon.ask.MiniGlo.utils.GloUtils;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
@@ -28,7 +29,7 @@ public class EditCardIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
         if(response.equals(Optional.empty())){
             boolean correct = true;
@@ -125,7 +126,9 @@ public class EditCardIntentHandler implements RequestHandler {
             if(correct){
                 responseText += " .The item was correctly Edited";
                 responseText +=" .Item edited: " + card.get("name").getAsString();
-            }else responseText += " .The item wasnt correctly edited";
+            }else responseText += " .The item wasnt correctly edited"  + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
+            responseText += Constants.CONTINUE;
+
             FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()
                     .withSpeech(responseText)

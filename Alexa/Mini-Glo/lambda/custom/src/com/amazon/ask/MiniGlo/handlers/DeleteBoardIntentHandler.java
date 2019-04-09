@@ -28,7 +28,7 @@ public class DeleteBoardIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
 
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
         JsonObject status;
 

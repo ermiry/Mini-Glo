@@ -29,7 +29,7 @@ public class AddCardIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional <Response> response = FunctionApi.getSharedInstance()
                 .badAuthentication(accessToken,input);
         if(response.equals(Optional.empty())) {
@@ -106,7 +106,7 @@ public class AddCardIntentHandler implements RequestHandler {
 
                 responseText += ". " + Constants.CORRECT_CREATION;
                 responseText += ". Item Created: " + card.get("name").getAsString();
-            }else responseText += ". " + Constants.INCORRECT_CREATION + ". Please ask mini glo how to create cards to retry";
+            }else responseText += ". " + Constants.INCORRECT_CREATION  + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
             responseText += ". " + Constants.CONTINUE;
             sessionAttributes.put(Attributes.CURRENT_COLUMN,column.toString());
             FunctionApi.getSharedInstance().disconnect();

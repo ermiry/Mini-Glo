@@ -29,7 +29,7 @@ public class DeleteColumnIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         Optional<Response> response = FunctionApi.getSharedInstance().badAuthentication(accessToken,input);
         boolean correct = true;
         JsonObject board = null, column = null,status=null;
@@ -77,7 +77,7 @@ public class DeleteColumnIntentHandler implements RequestHandler {
             responseText = new GloUtils().getSpeechCon(correct);
             if(correct)
                 responseText += ". Item correctly deleted. Item deleted: "+ column.get("name");
-            else responseText += ". Item wasnt correctly deleted. ";
+            else responseText += ". Item wasnt correctly deleted. "  + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
 
             responseText += Constants.CONTINUE;
 

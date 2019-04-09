@@ -31,7 +31,7 @@ public class OpenBoardIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
 
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
 
         Optional<Response> response;
 
@@ -71,7 +71,7 @@ public class OpenBoardIntentHandler implements RequestHandler {
             if (correct) {
                 speechOutput += Constants.CORRECT_SHOW;
                 speechOutput += ".  Item Showed:" + boardName.getValue();
-            } else speechOutput += Constants.INCORRECT_SHOW;
+            } else speechOutput += Constants.INCORRECT_SHOW  + ". Please before asking to create, edit or delete a column or a card, first create or open a board, ask for help if you need";
             speechOutput += ". " + Constants.CONTINUE;
             FunctionApi.getSharedInstance().disconnect();
             return input.getResponseBuilder()

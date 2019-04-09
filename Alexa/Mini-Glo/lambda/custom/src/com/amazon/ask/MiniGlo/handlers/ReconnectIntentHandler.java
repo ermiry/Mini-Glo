@@ -1,7 +1,6 @@
 package com.amazon.ask.MiniGlo.handlers;
 
 import com.amazon.ask.MiniGlo.api.FunctionApi;
-import com.amazon.ask.MiniGlo.model.Attributes;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
@@ -19,7 +18,7 @@ public class ReconnectIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        String accessToken = sessionAttributes.get(Attributes.ACCESS_TOKEN).toString();
+        String accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
         if(!FunctionApi.getSharedInstance().badAuthentication(accessToken,input).equals(Optional.empty())){
             accessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
             FunctionApi.getSharedInstance().disconnect();

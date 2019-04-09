@@ -136,17 +136,26 @@ public class FunctionApi {
 
     public Optional<Response> badAuthentication(String accessToken,HandlerInput input){
         String currentAccessToken = input.getRequestEnvelope().getContext().getSystem().getUser().getAccessToken();
+        System.out.println("accessToken = " + accessToken +  "\nCurrentAccessToken: " + currentAccessToken);
+        if(accessToken!=null) {
+            if (!accessToken.equals(currentAccessToken))
 
-        if(!accessToken.equals(currentAccessToken))
-
+                return input.getResponseBuilder()
+                        .withSpeech("You are not authenticated, please go to Alexa App to authenticate")
+                        .withReprompt(Constants.HELP_MESSAGE)
+                        .withLinkAccountCard()
+                        .withShouldEndSession(true)
+                        .build();
+            else
+                return Optional.empty();
+        }else{
             return input.getResponseBuilder()
                     .withSpeech("You are not authenticated, please go to Alexa App to authenticate")
                     .withReprompt(Constants.HELP_MESSAGE)
                     .withLinkAccountCard()
                     .withShouldEndSession(true)
                     .build();
-        else
-            return Optional.empty();
+        }
     }
 
 }
